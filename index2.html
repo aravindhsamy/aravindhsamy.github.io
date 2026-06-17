@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PRISM - SAIU</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+
+:root{
+    --primary:#1328AA;
+    --secondary:#4583BA;
+    --accent:#4D96C8;
+    --light:#F8FAFC;
+    --dark:#373639;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    color:var(--dark);
+}
+
+.section-padding{
+    padding:90px 0;
+}
+
+.section-title{
+    font-size:2.3rem;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.section-subtitle{
+    color:#6c757d;
+    margin-bottom:50px;
+}
+
+.bg-light-custom{
+    background:var(--light);
+}
+
+.navbar-brand{
+    font-weight:800;
+    color:var(--primary)!important;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    position:relative;
+
+    background: linear-gradient(rgb(73 147 255 / 25%), #001e4a), url(/us.jpg);
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:4rem;
+    font-weight:800;
+}
+
+.hero p{
+    font-size:1.2rem;
+}
+
+.hero-card{
+    background:white;
+    color:black;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.stat-card{
+    background:white;
+    border-radius:20px;
+    text-align:center;
+    padding:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+}
+
+.counter{
+    font-size:2.5rem;
+    font-weight:700;
+    color:var(--primary);
+}
+
+.feature-card{
+    border:none;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+    height:100%;
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+.feature-icon{
+    width:70px;
+    height:70px;
+    border-radius:15px;
+    background:#E8EEFF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2rem;
+    color:var(--primary);
+    margin-bottom:20px;
+}
+
+.timeline{
+    position:relative;
+    padding-left:40px;
+}
+
+.timeline::before{
+    content:'';
+    position:absolute;
+    left:10px;
+    top:0;
+    width:4px;
+    height:100%;
+    background:var(--primary);
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:35px;
+}
+
+.timeline-item::before{
+    content:'';
+    position:absolute;
+    left:-36px;
+    top:5px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--primary);
+}
+
+.timeline-item h5{
+    color:var(--primary);
+    font-weight:700;
+}
+
+.btn-primary-custom{
+    background:white;
+    color:var(--primary);
+    border:none;
+    font-weight:600;
+}
+
+.btn-primary-custom:hover{
+    background:#f1f1f1;
+}
+
+.btn-outline-custom{
+    border:2px solid white;
+    color:white;
+}
+
+.btn-outline-custom:hover{
+    background:white;
+    color:var(--primary);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand" href="#">
+PRISM
+</a>
+
+<button
+class="navbar-toggler"
+data-bs-toggle="collapse"
+data-bs-target="#navbar">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="navbar">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#roadmap">
+Roadmap
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#tracks">
+Tracks
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#mentors">
+Mentors
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#faq">
+FAQ
+</a>
+</li>
+
+<li class="nav-item ms-lg-3">
+<a href="https://forms.gle/VAa9vAtvv1G579Yy7" class="btn btn-primary">
+Apply Now!
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+<div class="container">
+
+<div class="row align-items-center">
+
+<div class="col-lg-7">
+
+<span class="badge bg-warning text-dark fs-6 mb-3">
+Sai University • School of Computing and Data Science
+</span>
+
+<h1>
+Professional Readiness & Industry Skills Mastery
+</h1>
+
+<p class="my-4">
+Empowering students through structured placement preparation,
+industry mentorship, coding practice, aptitude training,
+mock interviews and career guidance.
+</p>
+
+<a href="#tracks" class="btn btn-primary-custom btn-lg me-3">
+Explore Tracks
+</a>
+
+<a href="#mentors" class="btn btn-outline-custom btn-lg">
+Meet Faculty
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- WHY PLACEMENT TRAINING -->
+
+<section class="section-padding bg-light-custom">
+
+<div class="container">
+
+<div class="text-center">
+
+<h2 class="section-title">
+Why Placement Training?
+</h2>
+
+<p class="section-subtitle">
+Everything you need to succeed in campus placements.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-diagram-3"></i>
+</div>
+
+<h4>
+Structured Learning
+</h4>
+
+<p>
+Follow a carefully designed roadmap from
+foundation to placement readiness.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-people"></i>
+</div>
+
+<h4>
+Industry Mentors
+</h4>
+
+<p>
+Learn from faculty members and
+industry professionals.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="bi bi-briefcase"></i>
+</div>
+
+<h4>
+Company Preparation
+</h4>
+
+<p>
+Practice company-specific questions
+and interview experiences.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ROADMAP -->
+
+<section id="roadmap" class="section-padding">
+
+<div class="container">
+
+<div class="text-center">
+
+<h2 class="section-title">
+10 Week Placement Roadmap
+</h2>
+
+<p class="section-subtitle">
+Follow this structured preparation plan.
+</p>
+
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h5>Week 1-2</h5>
+<p>Aptitude & Reasoning</p>
+</div>
+
+<div class="timeline-item">
+<h5>Week 3-4</h5>
+<p>Programming Fundamentals</p>
+</div>
+
+<div class="timeline-item">
+<h5>Week 5-6</h5>
+<p>Data Structures & Algorithms</p>
+</div>
+
+<div class="timeline-item">
+<h5>Week 7-8</h5>
+<p>DBMS, Operating Systems, system design</p>
+</div>
+
+<div class="timeline-item">
+<h5>Week 9</h5>
+<p>Resume Building</p>
+</div>
+
+<div class="timeline-item">
+<h5>Week 10</h5>
+<p>Company Specific Preparation</p>
+</div>
+</div>
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- CAREER TRACKS -->
+<!-- ===================================================== -->
+
+<section id="tracks" class="section-padding bg-light-custom">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Career Tracks
+            </h2>
+
+            <p class="section-subtitle">
+                Choose your preferred career path and follow a structured roadmap.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card text-center">
+
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+
+                    <h4>Software Engineer</h4>
+
+                    <p>
+                        DSA, System Design, OOP,
+                        DBMS and Coding Interviews.
+                    </p>
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card text-center">
+
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <h4>Data Analyst</h4>
+
+                    <p>
+                        Excel, SQL, Power BI,
+                        Statistics and Analytics.
+                    </p>
+
+            
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card text-center">
+
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <h4>AI / ML Engineer</h4>
+
+                    <p>
+                        Python, Machine Learning,
+                        Deep Learning and AI Tools.
+                    </p>
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card text-center">
+
+                    <div class="feature-icon mx-auto">
+                        <i class="bi bi-cloud"></i>
+                    </div>
+
+                    <h4>Cloud Engineer</h4>
+
+                    <p>
+                        AWS, Azure, Docker,
+                        Kubernetes and DevOps.
+                    </p>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- TRAINING MODULES -->
+<!-- ===================================================== -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Training Modules
+            </h2>
+
+            <p class="section-subtitle">
+                Comprehensive learning modules designed for placement success.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-calculator fs-1 text-primary"></i>
+                    <h5 class="mt-3">Aptitude</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-terminal fs-1 text-primary"></i>
+                    <h5 class="mt-3">Programming</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-diagram-2 fs-1 text-primary"></i>
+                    <h5 class="mt-3">DSA</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-columns-gap fs-1 text-primary"></i>
+                    <h5 class="mt-3">System Design</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-database fs-1 text-primary"></i>
+                    <h5 class="mt-3">DBMS</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-hdd-network fs-1 text-primary"></i>
+                    <h5 class="mt-3">Operating Systems</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <i class="bi bi-router fs-1 text-primary"></i>
+                    <h5 class="mt-3">Computer Networks</h5>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- STUDENT JOURNEY -->
+<!-- ===================================================== -->
+
+<section class="section-padding bg-light-custom">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Student Journey
+            </h2>
+
+            <p class="section-subtitle">
+                Your complete placement preparation workflow.
+            </p>
+
+        </div>
+
+        <div class="row text-center g-4">
+
+            <div class="col">
+                <div class="stat-card">
+                    Registration
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="stat-card">
+                    Assessment
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="stat-card">
+                    Training
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="stat-card">
+                    Mock Test
+                </div>
+            </div>
+            <div class="col">
+                <div class="stat-card">
+                    Placement
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- COMPANY PREPARATION -->
+<!-- ===================================================== -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Company Preparation
+            </h2>
+
+            <p class="section-subtitle">
+                Dedicated preparation tracks for top recruiters.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card">
+
+                    <h4>TCS</h4>
+
+                    <ul>
+                        <li>Aptitude</li>
+                        <li>Reasoning</li>
+                        <li>Coding</li>
+                        <li>Interview</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card">
+
+                    <h4>Infosys</h4>
+
+                    <ul>
+                        <li>Aptitude</li>
+                        <li>Puzzles</li>
+                        <li>Coding</li>
+                        <li>Interview</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card">
+
+                    <h4>Accenture</h4>
+
+                    <ul>
+                        <li>Cognitive Test</li>
+                        <li>Technical MCQ</li>
+                        <li>Coding</li>
+                        <li>Interview</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="feature-card">
+
+                    <h4>Zoho</h4>
+
+                    <ul>
+                        <li>Coding</li>
+                        <li>Problem Solving</li>
+                        <li>Projects</li>
+                        <li>Interview</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- FACULTY & INDUSTRY MENTORS -->
+<!-- ===================================================== -->
+<section id="mentors" class="section-padding bg-light-custom">
+
+<div class="container">
+
+<div class="text-center">
+
+<h2 class="section-title">
+Guided By Faculty & Mentors
+</h2>
+
+<p class="section-subtitle">
+School of Computing and Data Science
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<!-- Ajith Abraham -->
+<!-- 
+<div class="col-lg-4 col-md-6">
+
+<div class="feature-card text-center">
+
+<img src="faculty/ajith.avif"
+class="rounded-circle mb-3"
+width="120">
+
+<h5>Dr. Ajith Abraham</h5>
+
+<p class="text-primary">
+Vice Chancellor
+</p>
+
+<a
+href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-ajith-abraham-"
+target="_blank"
+class="btn btn-outline-primary">
+
+Faculty Profile
+
+</a>
+
+</div>
+
+</div> -->
+
+<!-- Krishna Kant -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="feature-card text-center">
+
+<img src="faculty/kk.avif"
+class="rounded-circle mb-3"
+width="120">
+
+<h5>Dr. Krishna Kant Singh</h5>
+
+<p class="text-primary">
+Dean, School of Computing & Data Science
+</p>
+
+<a
+href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-krishna-kant-singh"
+target="_blank"
+class="btn btn-outline-primary">
+
+Faculty Profile
+
+</a>
+
+</div>
+
+</div>
+
+<!-- Beaula -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="feature-card text-center">
+
+<img src="faculty/bc.avif"
+class="rounded-circle mb-3"
+width="120">
+
+<h5>Dr. Beaula Charles</h5>
+
+<p class="text-primary">
+Senior Lecturer
+</p>
+
+<a
+href="https://www.saiuniversity.edu.in/saiu-faculties/beaula-charles"
+target="_blank"
+class="btn btn-outline-primary">
+
+Faculty Profile
+
+</a>
+
+</div>
+
+</div>
+
+<!-- Tamilarasi -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="feature-card text-center">
+
+<img src="faculty/taw.avif"
+class="rounded-circle mb-3"
+width="120">
+
+<h5>Dr. Tamilarasi W</h5>
+
+<p class="text-primary">
+Faculty, SCDS
+</p>
+
+<a
+href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-tamilarasi-w"
+target="_blank"
+class="btn btn-outline-primary">
+
+Faculty Profile
+
+</a>
+
+</div>
+
+</div>
+<!-- Aravindhsamy -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="feature-card text-center">
+
+<img src="faculty/asp.avif"
+class="rounded-circle mb-3"
+width="120">
+
+<h5>Aravindhsamy Palaniraj</h5>
+
+<p class="text-primary">
+Lecturer
+</p>
+
+<a
+href="https://www.saiuniversity.edu.in/saiu-faculties/aravindhsamy-palaniraj"
+target="_blank"
+class="btn btn-outline-primary">
+
+Faculty Profile
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SKILLS SECTION -->
+<!-- ===================================================== -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Skills You Will Develop
+            </h2>
+
+            <p class="section-subtitle">
+                Essential skills for placement success.
+            </p>
+
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <div class="stat-card">Problem Solving</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Data Structures</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Communication</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">System Design</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Database Design</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Team Collaboration</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Leadership</div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card">Interview Skills</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PLACEMENT ASSESSMENT -->
+<!-- ===================================================== -->
+
+<section class="section-padding bg-light-custom">
+
+    <div class="container text-center">
+
+        <h2 class="section-title">
+            Join Placement Readiness Assessment - Click Join!!!
+        </h2>
+
+        <p class="section-subtitle">
+            Evaluate your placement preparation level.
+        </p>
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-md-2">
+                <div class="stat-card">
+                    Aptitude
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="stat-card">
+                    Coding
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="stat-card">
+                    DSA
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="stat-card">
+                    Communication
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-5">
+
+            <a href="https://forms.gle/VAa9vAtvv1G579Yy7" class="btn btn-primary btn-lg">
+Join Now!
+</a>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- FAQ -->
+<!-- ===================================================== -->
+
+<section id="faq" class="section-padding">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Frequently Asked Questions
+            </h2>
+
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button class="accordion-button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq1">
+
+                        Is coding mandatory?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq1"
+                     class="accordion-collapse collapse show">
+
+                    <div class="accordion-body">
+                        Coding is highly recommended
+                        for technical placements.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+
+                    <button class="accordion-button collapsed"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#faq2">
+
+                        Are mock interviews available?
+
+                    </button>
+
+                </h2>
+
+                <div id="faq2"
+                     class="accordion-collapse collapse">
+
+                    <div class="accordion-body">
+                        Yes. Regular mock interviews are conducted.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- CTA -->
+<!-- ===================================================== -->
+
+<section class="section-padding bg-light-custom">
+
+    <div class="container">
+
+        <div class="text-center p-5 rounded-4 text-white"
+             style="background:linear-gradient(135deg,#1328AA,#4D96C8);">
+
+            <h2>
+                Ready To Start Your Placement Journey?
+            </h2>
+
+            <p class="mt-3">
+                Join the program and become placement ready.
+            </p>
+
+            <a href="https://forms.gle/VAa9vAtvv1G579Yy7"
+               class="btn btn-light btn-lg mt-3">
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- CONTACT -->
+<!-- ===================================================== -->
+
+<section id="contact" class="section-padding bg-light-custom">
+
+    <div class="container text-center">
+
+        <h2 class="section-title">
+            Contact - Partnerships and Career Services
+        </h2>
+
+        <p>Email: joseph.d@saiuniversity.edu.in</p>
+
+        <p>Phone: +91 8428704334</p>
+
+        <p>Office Hours: Mon - Fri (09:00 AM - 05:00 PM)</p>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================== -->
+
+<footer class="bg-dark text-white py-5">
+
+    <div class="container text-center">
+
+        <h4>SCDS Placement Training Portal</h4>
+
+        <p>
+            School of Computing and Data Science - Empowering students for successful careers.
+        </p>
+
+        <hr>
+
+        <p class="mb-0">
+            © 2026 Placement Training Portal.
+            All Rights Reserved.
+        </p>
+        <p class="mb-0">
+            Developed By ARAVINDHSAMY
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- ===================================================== -->
+<!-- LOGIN MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal fade" id="loginModal">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Student Login
+                </h5>
+
+                <button class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <form>
+
+                    <div class="mb-3">
+
+                        <label>Email</label>
+
+                        <input type="email"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Password</label>
+
+                        <input type="password"
+                               class="form-control">
+
+                    </div>
+
+                    <button class="btn btn-primary w-100">
+                        Login
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+.dark-mode{
+background:#121212 !important;
+color:white !important;
+}
+
+.dark-mode section{
+background:#121212 !important;
+color:white !important;
+}
+
+.dark-mode .feature-card,
+.dark-mode .stat-card{
+background:#1e1e1e;
+color:white;
+}
+
+</style>
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

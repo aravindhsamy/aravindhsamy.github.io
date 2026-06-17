@@ -2,1327 +2,1065 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PRISM - SAIU</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-<style>
-
-:root{
-    --primary:#1328AA;
-    --secondary:#4583BA;
-    --accent:#4D96C8;
-    --light:#F8FAFC;
-    --dark:#373639;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:'Segoe UI',sans-serif;
-    color:var(--dark);
-}
-
-.section-padding{
-    padding:90px 0;
-}
-
-.section-title{
-    font-size:2.3rem;
-    font-weight:700;
-    margin-bottom:15px;
-}
-
-.section-subtitle{
-    color:#6c757d;
-    margin-bottom:50px;
-}
-
-.bg-light-custom{
-    background:var(--light);
-}
-
-.navbar-brand{
-    font-weight:800;
-    color:var(--primary)!important;
-}
-
-.hero{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    position:relative;
-
-    background: linear-gradient(rgb(73 147 255 / 25%), #001e4a), url(/us.jpg);
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    color:white;
-}
-
-.hero h1{
-    font-size:4rem;
-    font-weight:800;
-}
-
-.hero p{
-    font-size:1.2rem;
-}
-
-.hero-card{
-    background:white;
-    color:black;
-    border-radius:25px;
-    padding:30px;
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
-}
-
-.stat-card{
-    background:white;
-    border-radius:20px;
-    text-align:center;
-    padding:30px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.stat-card:hover{
-    transform:translateY(-6px);
-}
-
-.counter{
-    font-size:2.5rem;
-    font-weight:700;
-    color:var(--primary);
-}
-
-.feature-card{
-    border:none;
-    border-radius:20px;
-    padding:35px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    transition:.3s;
-    height:100%;
-}
-
-.feature-card:hover{
-    transform:translateY(-8px);
-}
-
-.feature-icon{
-    width:70px;
-    height:70px;
-    border-radius:15px;
-    background:#E8EEFF;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:2rem;
-    color:var(--primary);
-    margin-bottom:20px;
-}
-
-.timeline{
-    position:relative;
-    padding-left:40px;
-}
-
-.timeline::before{
-    content:'';
-    position:absolute;
-    left:10px;
-    top:0;
-    width:4px;
-    height:100%;
-    background:var(--primary);
-}
-
-.timeline-item{
-    position:relative;
-    margin-bottom:35px;
-}
-
-.timeline-item::before{
-    content:'';
-    position:absolute;
-    left:-36px;
-    top:5px;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:var(--primary);
-}
-
-.timeline-item h5{
-    color:var(--primary);
-    font-weight:700;
-}
-
-.btn-primary-custom{
-    background:white;
-    color:var(--primary);
-    border:none;
-    font-weight:600;
-}
-
-.btn-primary-custom:hover{
-    background:#f1f1f1;
-}
-
-.btn-outline-custom{
-    border:2px solid white;
-    color:white;
-}
-
-.btn-outline-custom:hover{
-    background:white;
-    color:var(--primary);
-}
-
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q-APP | Join Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<!-- NAVBAR -->
-
-<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
-
-<div class="container">
-
-<a class="navbar-brand" href="#">
-PRISM
-</a>
-
-<button
-class="navbar-toggler"
-data-bs-toggle="collapse"
-data-bs-target="#navbar">
-
-<span class="navbar-toggler-icon"></span>
-
-</button>
-
-<div class="collapse navbar-collapse" id="navbar">
-
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item">
-<a class="nav-link" href="#roadmap">
-Roadmap
-</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#tracks">
-Tracks
-</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#mentors">
-Mentors
-</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#faq">
-FAQ
-</a>
-</li>
-
-<li class="nav-item ms-lg-3">
-<a class="btn btn-primary">
-Login
-</a>
-</li>
-
-</ul>
-
+<div id="loadingOverlay" class="loading-overlay hidden">
+	<div class="loading-box">
+		<h2 id="loadingTitle">Exam is loading...</h2>
+		<p id="loadingMessage">Please wait while your exam settings are being prepared.</p>
+	</div>
 </div>
-
-</div>
-
-</nav>
-
-<!-- HERO -->
-
-<section class="hero">
-<div class="container">
-
-<div class="row align-items-center">
-
-<div class="col-lg-7">
-
-<span class="badge bg-warning text-dark fs-6 mb-3">
-Sai University • School of Computing and Data Science
-</span>
-
-<h1>
-Professional Readiness & Industry Skills Mastery
-</h1>
-
-<p class="my-4">
-Empowering students through structured placement preparation,
-industry mentorship, coding practice, aptitude training,
-mock interviews and career guidance.
-</p>
-
-<a href="#tracks" class="btn btn-primary-custom btn-lg me-3">
-Explore Tracks
-</a>
-
-<a href="#mentors" class="btn btn-outline-custom btn-lg">
-Meet Faculty
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-<!-- WHY PLACEMENT TRAINING -->
-
-<section class="section-padding bg-light-custom">
-
-<div class="container">
-
-<div class="text-center">
-
-<h2 class="section-title">
-Why Placement Training?
-</h2>
-
-<p class="section-subtitle">
-Everything you need to succeed in campus placements.
-</p>
-
-</div>
-
-<div class="row g-4">
-
-<div class="col-lg-4">
-
-<div class="feature-card">
-
-<div class="feature-icon">
-<i class="bi bi-diagram-3"></i>
-</div>
-
-<h4>
-Structured Learning
-</h4>
-
-<p>
-Follow a carefully designed roadmap from
-foundation to placement readiness.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-lg-4">
-
-<div class="feature-card">
-
-<div class="feature-icon">
-<i class="bi bi-people"></i>
-</div>
-
-<h4>
-Industry Mentors
-</h4>
-
-<p>
-Learn from faculty members and
-industry professionals.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-lg-4">
-
-<div class="feature-card">
-
-<div class="feature-icon">
-<i class="bi bi-briefcase"></i>
-</div>
-
-<h4>
-Company Preparation
-</h4>
-
-<p>
-Practice company-specific questions
-and interview experiences.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ROADMAP -->
-
-<section id="roadmap" class="section-padding">
-
-<div class="container">
-
-<div class="text-center">
-
-<h2 class="section-title">
-12 Week Placement Roadmap
-</h2>
-
-<p class="section-subtitle">
-Follow this structured preparation plan.
-</p>
-
-</div>
-
-<div class="timeline">
-
-<div class="timeline-item">
-<h5>Week 1-2</h5>
-<p>Aptitude & Reasoning</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 3-4</h5>
-<p>Programming Fundamentals</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 5-6</h5>
-<p>Data Structures & Algorithms</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 7-8</h5>
-<p>DBMS, Operating Systems, Computer Networks</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 9</h5>
-<p>Resume Building</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 10</h5>
-<p>Projects & Portfolio</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 11</h5>
-<p>Mock Interviews</p>
-</div>
-
-<div class="timeline-item">
-<h5>Week 12</h5>
-<p>Company Specific Preparation</p>
-</div>
-
-</div>
-
-</div>
-
-</section>
-<!-- ===================================================== -->
-<!-- CAREER TRACKS -->
-<!-- ===================================================== -->
-
-<section id="tracks" class="section-padding bg-light-custom">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Career Tracks
-            </h2>
-
-            <p class="section-subtitle">
-                Choose your preferred career path and follow a structured roadmap.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card text-center">
-
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-code-slash"></i>
-                    </div>
-
-                    <h4>Software Engineer</h4>
-
-                    <p>
-                        DSA, System Design, OOP,
-                        DBMS and Coding Interviews.
-                    </p>
-
-                    
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card text-center">
-
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-bar-chart-line"></i>
-                    </div>
-
-                    <h4>Data Analyst</h4>
-
-                    <p>
-                        Excel, SQL, Power BI,
-                        Statistics and Analytics.
-                    </p>
-
-            
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card text-center">
-
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-cpu"></i>
-                    </div>
-
-                    <h4>AI / ML Engineer</h4>
-
-                    <p>
-                        Python, Machine Learning,
-                        Deep Learning and AI Tools.
-                    </p>
-
-                    
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card text-center">
-
-                    <div class="feature-icon mx-auto">
-                        <i class="bi bi-cloud"></i>
-                    </div>
-
-                    <h4>Cloud Engineer</h4>
-
-                    <p>
-                        AWS, Azure, Docker,
-                        Kubernetes and DevOps.
-                    </p>
-
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- TRAINING MODULES -->
-<!-- ===================================================== -->
-
-<section class="section-padding">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Training Modules
-            </h2>
-
-            <p class="section-subtitle">
-                Comprehensive learning modules designed for placement success.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-calculator fs-1 text-primary"></i>
-                    <h5 class="mt-3">Aptitude</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-terminal fs-1 text-primary"></i>
-                    <h5 class="mt-3">Programming</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-diagram-2 fs-1 text-primary"></i>
-                    <h5 class="mt-3">DSA</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-columns-gap fs-1 text-primary"></i>
-                    <h5 class="mt-3">System Design</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-database fs-1 text-primary"></i>
-                    <h5 class="mt-3">DBMS</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-hdd-network fs-1 text-primary"></i>
-                    <h5 class="mt-3">Operating Systems</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-router fs-1 text-primary"></i>
-                    <h5 class="mt-3">Computer Networks</h5>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="stat-card">
-                    <i class="bi bi-chat-square-text fs-1 text-primary"></i>
-                    <h5 class="mt-3">HR Interview</h5>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- STUDENT JOURNEY -->
-<!-- ===================================================== -->
-
-<section class="section-padding bg-light-custom">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Student Journey
-            </h2>
-
-            <p class="section-subtitle">
-                Your complete placement preparation workflow.
-            </p>
-
-        </div>
-
-        <div class="row text-center g-4">
-
-            <div class="col">
-                <div class="stat-card">
-                    Registration
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="stat-card">
-                    Assessment
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="stat-card">
-                    Training
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="stat-card">
-                    Mock Test
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="stat-card">
-                    Interview
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="stat-card">
-                    Placement
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- COMPANY PREPARATION -->
-<!-- ===================================================== -->
-
-<section class="section-padding">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Company Preparation
-            </h2>
-
-            <p class="section-subtitle">
-                Dedicated preparation tracks for top recruiters.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <h4>TCS</h4>
-
-                    <ul>
-                        <li>Aptitude</li>
-                        <li>Reasoning</li>
-                        <li>Coding</li>
-                        <li>Interview</li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <h4>Infosys</h4>
-
-                    <ul>
-                        <li>Aptitude</li>
-                        <li>Puzzles</li>
-                        <li>Coding</li>
-                        <li>Interview</li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <h4>Accenture</h4>
-
-                    <ul>
-                        <li>Cognitive Test</li>
-                        <li>Technical MCQ</li>
-                        <li>Coding</li>
-                        <li>Interview</li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="feature-card">
-
-                    <h4>Zoho</h4>
-
-                    <ul>
-                        <li>Coding</li>
-                        <li>Problem Solving</li>
-                        <li>Projects</li>
-                        <li>Interview</li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- FACULTY & INDUSTRY MENTORS -->
-<!-- ===================================================== -->
-<section id="mentors" class="section-padding bg-light-custom">
-
-<div class="container">
-
-<div class="text-center">
-
-<h2 class="section-title">
-Guided By Faculty & Mentors
-</h2>
-
-<p class="section-subtitle">
-School of Computing and Data Science
-</p>
-
-</div>
-
-<div class="row g-4">
-
-<!-- Ajith Abraham -->
-
-<div class="col-lg-4 col-md-6">
-
-<div class="feature-card text-center">
-
-<img src="faculty/ajith.avif"
-class="rounded-circle mb-3"
-width="120">
-
-<h5>Dr. Ajith Abraham</h5>
-
-<p class="text-primary">
-Vice Chancellor
-</p>
-
-<a
-href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-ajith-abraham-"
-target="_blank"
-class="btn btn-outline-primary">
-
-Faculty Profile
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Krishna Kant -->
-
-<div class="col-lg-4 col-md-6">
-
-<div class="feature-card text-center">
-
-<img src="faculty/kk.avif"
-class="rounded-circle mb-3"
-width="120">
-
-<h5>Dr. Krishna Kant Singh</h5>
-
-<p class="text-primary">
-Dean, School of Computing & Data Science
-</p>
-
-<a
-href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-krishna-kant-singh"
-target="_blank"
-class="btn btn-outline-primary">
-
-Faculty Profile
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Beaula -->
-
-<div class="col-lg-4 col-md-6">
-
-<div class="feature-card text-center">
-
-<img src="faculty/bc.avif"
-class="rounded-circle mb-3"
-width="120">
-
-<h5>Dr. Beaula Charles</h5>
-
-<p class="text-primary">
-Senior Lecturer
-</p>
-
-<a
-href="https://www.saiuniversity.edu.in/saiu-faculties/beaula-charles"
-target="_blank"
-class="btn btn-outline-primary">
-
-Faculty Profile
-
-</a>
-
-</div>
-
-</div>
-
-<!-- Tamilarasi -->
-
-<div class="col-lg-4 col-md-6">
-
-<div class="feature-card text-center">
-
-<img src="faculty/taw.avif"
-class="rounded-circle mb-3"
-width="120">
-
-<h5>Dr. Tamilarasi W</h5>
-
-<p class="text-primary">
-Faculty, SCDS
-</p>
-
-<a
-href="https://www.saiuniversity.edu.in/saiu-faculties/dr.-tamilarasi-w"
-target="_blank"
-class="btn btn-outline-primary">
-
-Faculty Profile
-
-</a>
-
-</div>
-
-</div>
-<!-- Aravindhsamy -->
-
-<div class="col-lg-4 col-md-6">
-
-<div class="feature-card text-center">
-
-<img src="faculty/asp.avif"
-class="rounded-circle mb-3"
-width="120">
-
-<h5>Aravindhsamy Palaniraj</h5>
-
-<p class="text-primary">
-Lecturer
-</p>
-
-<a
-href="https://www.saiuniversity.edu.in/saiu-faculties/aravindhsamy-palaniraj"
-target="_blank"
-class="btn btn-outline-primary">
-
-Faculty Profile
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- SKILLS SECTION -->
-<!-- ===================================================== -->
-
-<section class="section-padding">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Skills You Will Develop
-            </h2>
-
-            <p class="section-subtitle">
-                Essential skills for placement success.
-            </p>
-
-        </div>
-
-        <div class="row g-3">
-
-            <div class="col-md-3">
-                <div class="stat-card">Problem Solving</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Data Structures</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Communication</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">System Design</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Database Design</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Team Collaboration</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Leadership</div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="stat-card">Interview Skills</div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- PLACEMENT ASSESSMENT -->
-<!-- ===================================================== -->
-
-<section class="section-padding bg-light-custom">
-
-    <div class="container text-center">
-
-        <h2 class="section-title">
-            Placement Readiness Assessment
-        </h2>
-
-        <p class="section-subtitle">
-            Evaluate your placement preparation level.
-        </p>
-
-        <div class="row g-4 justify-content-center">
-
-            <div class="col-md-2">
-                <div class="stat-card">
-                    Aptitude
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="stat-card">
-                    Coding
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="stat-card">
-                    DSA
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="stat-card">
-                    Communication
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mt-5">
-
-            <button class="btn btn-primary btn-lg">
-                Start Assessment
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ===================================================== -->
-<!-- FAQ -->
-<!-- ===================================================== -->
-
-<section id="faq" class="section-padding">
-
-    <div class="container">
-
-        <div class="text-center">
-
-            <h2 class="section-title">
-                Frequently Asked Questions
-            </h2>
-
-        </div>
-
-        <div class="accordion" id="faqAccordion">
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button class="accordion-button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq1">
-
-                        Is coding mandatory?
-
-                    </button>
-
-                </h2>
-
-                <div id="faq1"
-                     class="accordion-collapse collapse show">
-
-                    <div class="accordion-body">
-                        Coding is highly recommended
-                        for technical placements.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#faq2">
-
-                        Are mock interviews available?
-
-                    </button>
-
-                </h2>
-
-                <div id="faq2"
-                     class="accordion-collapse collapse">
-
-                    <div class="accordion-body">
-                        Yes. Regular mock interviews are conducted.
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- CTA -->
-<!-- ===================================================== -->
-
-<section class="section-padding bg-light-custom">
-
-    <div class="container">
-
-        <div class="text-center p-5 rounded-4 text-white"
-             style="background:linear-gradient(135deg,#1328AA,#4D96C8);">
-
-            <h2>
-                Ready To Start Your Placement Journey?
-            </h2>
-
-            <p class="mt-3">
-                Join the program and become placement ready.
-            </p>
-
-            <a href="#"
-               class="btn btn-light btn-lg mt-3">
-                Get Started
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- CONTACT -->
-<!-- ===================================================== -->
-
-<section id="contact" class="section-padding bg-light-custom">
-
-    <div class="container text-center">
-
-        <h2 class="section-title">
-            Contact - Partnerships and Career Services
-        </h2>
-
-        <p>Email: joseph.d@saiuniversity.edu.in</p>
-
-        <p>Phone: +91 8428704334</p>
-
-        <p>Office Hours: Mon - Fri (09:00 AM - 05:00 PM)</p>
-
-    </div>
-
-</section>
-
-<!-- ===================================================== -->
-<!-- FOOTER -->
-<!-- ===================================================== -->
-
-<footer class="bg-dark text-white py-5">
-
-    <div class="container text-center">
-
-        <h4>SCDS Placement Training Portal</h4>
-
-        <p>
-            School of Computing and Data Science - Empowering students for successful careers.
-        </p>
-
-        <hr>
-
-        <p class="mb-0">
-            © 2026 Placement Training Portal.
-            All Rights Reserved.
-        </p>
-        <p class="mb-0">
-            Developed By ARAVINDHSAMY
-        </p>
-
-    </div>
-
-</footer>
-
-<!-- ===================================================== -->
-<!-- LOGIN MODAL -->
-<!-- ===================================================== -->
-
-<div class="modal fade" id="loginModal">
-
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <h5 class="modal-title">
-                    Student Login
-                </h5>
-
-                <button class="btn-close"
-                        data-bs-dismiss="modal">
-                </button>
-
-            </div>
-
-            <div class="modal-body">
-
-                <form>
-
-                    <div class="mb-3">
-
-                        <label>Email</label>
-
-                        <input type="email"
-                               class="form-control">
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label>Password</label>
-
-                        <input type="password"
-                               class="form-control">
-
-                    </div>
-
-                    <button class="btn btn-primary w-100">
-                        Login
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<style>
-
-.dark-mode{
-background:#121212 !important;
-color:white !important;
+<main class="app-shell">
+	<section class="hero" id="landingHero">
+		<div class="hero-panel">
+			<span class="eyebrow">Q-APP Multi-Exam Portal</span>
+			<h1 id="heroTitle">Join the exact exam shared by your teacher.</h1>
+			<p id="heroSubtitle">
+				Each exam now has its own exam ID. Students only see that particular teacher's exam, while questions and results stay separate from every other exam.
+			</p>
+			<ul class="hero-list">
+				<li>Enter the exam ID provided by your teacher or use the direct exam link.</li>
+				<li>Questions, timing, attempt checks, and results all stay attached to that exam only.</li>
+				<li>One student can take multiple different teacher exams without records getting mixed together.</li>
+			</ul>
+		</div>
+
+		<div class="stack">
+			<div class="stat-grid">
+				<div class="stat-card">
+					<span class="stat-label">Exam ID</span>
+					<span class="stat-value" id="heroExamIdStat">Required</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">Duration</span>
+					<span class="stat-value" id="heroDurationStat">--</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">Questions</span>
+					<span class="stat-value" id="heroQuestionStat">--</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">Pass Mark</span>
+					<span class="stat-value" id="heroPassStat">--</span>
+				</div>
+			</div>
+
+			<div class="card">
+				<h3>Before You Start</h3>
+				<ul class="info-list">
+					<li>Use the exact exam ID given by your teacher or admin.</li>
+					<li>The application ID check works inside that exam only, not across all exams.</li>
+					<li>Wait for the exam to be inside its start and end time window before beginning.</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="card" id="login">
+		<span class="eyebrow">Student Portal</span>
+		<h2 style="margin-top:14px;" id="loginHeading">Join your exam</h2>
+		<p class="helper-text" id="loginSummary">
+			Enter your exam ID and student details carefully. The app will load only that exam and save your result under the same exam ID.
+		</p>
+
+		<div class="input-grid">
+			<div class="field full">
+				<label for="examId">Exam ID</label>
+				<input id="examId" placeholder="Example: EXAM-AB12CD34">
+				<p class="helper-text" id="examIdHelp">Ask your teacher for the exam ID or open the exam link they shared.</p>
+			</div>
+
+			<div class="field">
+				<label for="name">Full Name</label>
+				<input id="name" autocomplete="name" placeholder="Enter your full name">
+			</div>
+
+			<div class="field">
+				<label for="email">Email Address</label>
+				<input id="email" type="email" autocomplete="email" placeholder="name@example.com">
+			</div>
+
+			<div class="field full">
+				<label for="appId">Application ID</label>
+				<input id="appId" placeholder="Example: CDS/2025/9999">
+				<p class="helper-text" id="appIdHelp">The application ID format depends on the teacher's exam setup.</p>
+			</div>
+		</div>
+
+		<div class="actions">
+			<button class="btn-primary" id="startBtn" onclick="startTest()">Start Test</button>
+			<div class="status" id="loginStatus">Enter an exam ID to preview the exam details.</div>
+		</div>
+
+		<div class="countdown-box" id="countdownBox">
+			<p class="helper-text" style="margin:0;color:inherit;">Test starting in</p>
+			<p class="countdown-number" id="countNumber">5</p>
+			<p class="helper-text" style="margin:0;color:inherit;">Please stay on this screen while the exam is prepared.</p>
+		</div>
+
+		<p id="loginWarning" class="danger-text" style="margin:16px 0 0;"></p>
+	</section>
+
+	<section class="card hidden" id="approvalGate">
+		<span class="eyebrow">Validation Complete</span>
+		<h2 style="margin-top:14px;">Wait for admin approval</h2>
+		<p class="helper-text" id="approvalSummary">
+			Your details are valid. The exam will unlock when the admin approves your application ID.
+		</p>
+		<div class="actions">
+			<button class="btn-primary" id="approvedStartBtn" onclick="beginApprovedExam()" disabled>Start Exam</button>
+			<div class="status" id="approvalStatus">Waiting for approval...</div>
+		</div>
+	</section>
+
+	<section class="card hidden" id="quiz">
+		<div class="quiz-header">
+			<div class="quiz-header-main">
+				<span class="eyebrow">Live Assessment</span>
+				<h2 id="quizHeading">Answer each question carefully</h2>
+				<div class="pill-row">
+					<span class="pill" id="studentBadge">Student session</span>
+					<span class="pill" id="examBadge">Exam: --</span>
+					<span class="pill" id="questionCountBadge">0 questions loaded</span>
+					<span class="pill" id="passBadge">Pass mark: --</span>
+				</div>
+			</div>
+			<div class="pill timer" id="timer">Time Left: 00m 00s</div>
+		</div>
+
+		<div class="progress-wrap">
+			<div class="progress-meta">
+				<span id="progressText">Question 1 of 1</span>
+				<span id="progressPercent">0% complete</span>
+			</div>
+			<div class="progress-bar" aria-hidden="true">
+				<div class="progress-fill" id="progressFill"></div>
+			</div>
+		</div>
+
+		<p class="warning-box hidden" id="warning"></p>
+
+		<div class="question-card">
+			<div id="question-container"></div>
+		</div>
+
+		<div class="actions">
+			<button class="btn-primary hidden" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+			<div class="status" id="answerStatus">Select one option to continue.</div>
+		</div>
+	</section>
+
+	<section class="card hidden" id="result">
+		<span class="eyebrow">Assessment Complete</span>
+		<h2 style="margin-top:14px;">Your exam has been submitted</h2>
+		<p class="helper-text" id="resultIntro">
+			The result is saved only under this exam ID and will not be mixed with any other teacher's exam.
+		</p>
+
+		<div class="result-hero">
+			<div class="score-ring">
+				<div style="text-align:center;">
+					<strong id="scoreMsg">0/0</strong>
+					<span id="percentMsg">0% scored</span>
+				</div>
+			</div>
+
+			<div class="analysis-box">
+				<h3>Result Summary</h3>
+				<ul class="result-list">
+					<li id="resultLineOne">Your score has been calculated successfully.</li>
+					<li id="resultLineTwo">Your submission was recorded for the selected exam.</li>
+					<li id="resultLineThree">The response sheet will be emailed after the configured delay.</li>
+				</ul>
+				<p class="page-note" id="resultStatusNote">Result status will appear here after evaluation.</p>
+			</div>
+		</div>
+	</section>
+</main>
+
+<script>
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmEl3bLq8vyNAtNGbU2pbLpMMl_lbbj5jaZLPCHDKSALeFdTIMVYksnZKvlVzPTy0C/exec";
+const DEFAULT_SETTINGS = {
+	examTitle: "Q-APP Exam",
+	examSubtitle: "Answer each question carefully",
+	appIdPrefix: "CDS"
+};
+
+let activeExamId = "";
+let examMeta = null;
+let questions = [];
+let selectedQuestions = [];
+let userAnswers = {};
+let currentIndex = 0;
+let timer;
+let time = DEFAULT_SETTINGS.durationMinutes * 60;
+let userName = "";
+let appId = "";
+let userEmail = "";
+let examSessionId = "";
+let examStarted = false;
+let submitted = false;
+let questionsReady = false;
+let startCountdownInterval;
+let startGateBlocked = false;
+let violationCount = 0;
+let approvalPollInterval;
+
+const queryParams = new URLSearchParams(window.location.search);
+const loginWarningEl = document.getElementById("loginWarning");
+const loginStatusEl = document.getElementById("loginStatus");
+const countdownBoxEl = document.getElementById("countdownBox");
+const countNumberEl = document.getElementById("countNumber");
+const warningEl = document.getElementById("warning");
+const answerStatusEl = document.getElementById("answerStatus");
+const nextBtnEl = document.getElementById("nextBtn");
+const questionContainerEl = document.getElementById("question-container");
+const progressFillEl = document.getElementById("progressFill");
+const progressTextEl = document.getElementById("progressText");
+const progressPercentEl = document.getElementById("progressPercent");
+const studentBadgeEl = document.getElementById("studentBadge");
+const examBadgeEl = document.getElementById("examBadge");
+const questionCountBadgeEl = document.getElementById("questionCountBadge");
+const passBadgeEl = document.getElementById("passBadge");
+const heroTitleEl = document.getElementById("heroTitle");
+const heroSubtitleEl = document.getElementById("heroSubtitle");
+const heroExamIdStatEl = document.getElementById("heroExamIdStat");
+const heroDurationStatEl = document.getElementById("heroDurationStat");
+const heroQuestionStatEl = document.getElementById("heroQuestionStat");
+const heroPassStatEl = document.getElementById("heroPassStat");
+const loginHeadingEl = document.getElementById("loginHeading");
+const loginSummaryEl = document.getElementById("loginSummary");
+const appIdHelpEl = document.getElementById("appIdHelp");
+const quizHeadingEl = document.getElementById("quizHeading");
+const resultStatusNoteEl = document.getElementById("resultStatusNote");
+const approvalGateEl = document.getElementById("approvalGate");
+const approvalStatusEl = document.getElementById("approvalStatus");
+const approvedStartBtnEl = document.getElementById("approvedStartBtn");
+
+function getExamSessionId() {
+	const key = `examSession:${activeExamId}:${appId}`;
+	let saved = sessionStorage.getItem(key);
+	if (!saved) {
+		saved = window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+		sessionStorage.setItem(key, saved);
+	}
+	return saved;
 }
 
-.dark-mode section{
-background:#121212 !important;
-color:white !important;
+function showLoading(title, message) {
+	const overlay = document.getElementById("loadingOverlay");
+	document.getElementById("loadingTitle").textContent = title;
+	document.getElementById("loadingMessage").textContent = message;
+	overlay.classList.remove("hidden");
+
+	// Disable all form controls
+	document.querySelectorAll("button, input").forEach(el => el.disabled = true);
 }
 
-.dark-mode .feature-card,
-.dark-mode .stat-card{
-background:#1e1e1e;
-color:white;
+function hideLoading() {
+	document.getElementById("loadingOverlay").classList.add("hidden");
+
+	// Re-enable controls
+	document.querySelectorAll("button, input").forEach(el => el.disabled = false);
+}
+if (sessionStorage.getItem("examStarted") === "true") {
+	alert("Page refresh detected. Exam already started.");
+	document.body.innerHTML = "<main class='app-shell'><section class='card'><h2 style='color:#b91c1c;'>Exam session closed due to refresh.</h2><p class='helper-text'>To protect the attempt, the current session has been locked. Please contact the exam administrator if this happened by mistake.</p></section></main>";
+	throw new Error("Exam locked");
 }
 
-</style>
+function getSettings() {
+	return examMeta || { ...DEFAULT_SETTINGS, examId: activeExamId || "Not selected" };
+}
 
-<!-- Bootstrap JS -->
+function updateUiFromMeta() {
+	const settings = getSettings();
+	document.title = `${settings.examTitle} | Join Exam`;
+	heroTitleEl.textContent = settings.examTitle || "Join the exact exam shared by your teacher.";
+	heroSubtitleEl.textContent = settings.examSubtitle || "Each teacher exam is separate and protected by its own exam ID.";
+	loginHeadingEl.textContent = settings.examTitle ? `Join ${settings.examTitle}` : "Join your exam";
+	loginSummaryEl.textContent = settings.examId
+		? `You are joining exam ${settings.examId}. Your result will stay attached only to this exam.`
+		: "Enter your exam ID and student details carefully. The app will load only that exam and save your result under the same exam ID.";
+	appIdHelpEl.innerHTML = `Format required: <strong>${settings.appIdPrefix}/2025/9999</strong>. The prefix must stay in capital letters.`;
+	document.getElementById("appId").placeholder = `Example: ${settings.appIdPrefix}/2025/9999`;
+	quizHeadingEl.textContent = settings.examSubtitle || DEFAULT_SETTINGS.examSubtitle;
+	heroExamIdStatEl.textContent = settings.examId || "Required";
+	heroDurationStatEl.textContent = `${settings.durationMinutes} min`;
+	heroQuestionStatEl.textContent = String(settings.questionLimit);
+	heroPassStatEl.textContent = `${settings.passPercentage}%`;
+	examBadgeEl.textContent = `Exam: ${settings.examId || "--"}`;
+	passBadgeEl.textContent = `Pass mark: ${settings.passPercentage}%`;
+	updateTimerDisplay(settings.durationMinutes * 60);
+}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+async function fetchExamMeta(examId) {
+	const safeExamId = String(examId || "").trim();
+	if (!safeExamId) {
+		examMeta = null;
+		activeExamId = "";
+		updateUiFromMeta();
+		return;
+	}
+
+	try {
+		setLoginStatus("Checking exam details...");
+		const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=publicExamMeta&examId=${encodeURIComponent(safeExamId)}&t=${Date.now()}`);
+		const data = await response.json();
+
+		if (data.status === "not_found") {
+			examMeta = null;
+			activeExamId = safeExamId;
+			updateUiFromMeta();
+			setLoginError("Exam ID not found. Please check the code shared by your teacher.");
+			setLoginStatus("No matching exam was found.");
+			return;
+		}
+
+		examMeta = data.exam;
+		activeExamId = data.exam.examId;
+		updateUiFromMeta();
+
+		if (data.status === "before") {
+			setLoginStatus("This exam exists, but it has not started yet.");
+		} else if (data.status === "after") {
+			setLoginStatus("This exam exists, but its exam window has closed.");
+		} else if (data.status === "inactive") {
+			setLoginStatus("This exam is currently inactive.");
+		} else {
+			setLoginStatus("Exam found. You can begin when you are ready.");
+		}
+	} catch (error) {
+		console.error(error);
+		setLoginStatus("Could not load exam details right now.");
+	}
+}
+
+function shuffleArray(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		const temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+}
+
+function setLoginError(message) {
+	loginWarningEl.textContent = message;
+}
+
+function setLoginStatus(message) {
+	loginStatusEl.textContent = message;
+}
+
+function validateApplicationId(id) {
+	const settings = getSettings();
+	const expectedLength = `${settings.appIdPrefix}/2025/9999`.length;
+
+	if (id.length !== expectedLength) {
+		return `Application ID must be ${expectedLength} characters, for example ${settings.appIdPrefix}/2025/9999.`;
+	}
+
+	const escapedPrefix = settings.appIdPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	const pattern = new RegExp(`^${escapedPrefix}\\/\\d{4}\\/\\d{4}$`);
+
+	if (!pattern.test(id)) {
+		return `Application ID must match the format ${settings.appIdPrefix}/2025/9999 and ${settings.appIdPrefix} must stay in capital letters.`;
+	}
+
+	return "valid";
+}
+
+function blockStart(message) {
+	startGateBlocked = true;
+	clearInterval(startCountdownInterval);
+	countdownBoxEl.style.display = "none";
+	document.getElementById("startBtn").disabled = false;
+	document.getElementById("startBtn").textContent = "Start Test";
+	setLoginStatus(message);
+}
+
+function startCountdown() {
+	let count = 5;
+	countdownBoxEl.style.display = "block";
+	countNumberEl.textContent = String(count);
+
+	startCountdownInterval = setInterval(() => {
+		if (startGateBlocked) {
+			clearInterval(startCountdownInterval);
+			return;
+		}
+
+		count -= 1;
+		countNumberEl.textContent = String(count);
+
+		if (count === 0) {
+			clearInterval(startCountdownInterval);
+			const wait = setInterval(() => {
+				if (startGateBlocked) {
+					clearInterval(wait);
+					return;
+				}
+
+				if (questionsReady) {
+					clearInterval(wait);
+					document.getElementById("landingHero").classList.add("hidden");
+					document.getElementById("login").classList.add("hidden");
+					document.getElementById("quiz").classList.remove("hidden");
+					showQuestion();
+					startTimer();
+				}
+			}, 100);
+		}
+	}, 1000);
+}
+
+async function startTest() {
+	currentIndex = 0;
+	userAnswers = {};
+	submitted = false;
+	questionsReady = false;
+	startGateBlocked = false;
+	violationCount = 0;
+	warningEl.classList.add("hidden");
+	warningEl.textContent = "";
+	setLoginError("");
+
+	activeExamId = document.getElementById("examId").value.trim().toUpperCase();
+	userName = document.getElementById("name").value.trim();
+	appId = document.getElementById("appId").value.trim().toUpperCase();
+	userEmail = document.getElementById("email").value.trim();
+	examSessionId = getExamSessionId();
+
+	if (!activeExamId) {
+		setLoginError("Please enter the exam ID shared by your teacher.");
+		return;
+	}
+
+	if (!examMeta || examMeta.examId !== activeExamId) {
+		await fetchExamMeta(activeExamId);
+	}
+
+	if (!examMeta || examMeta.examId !== activeExamId) {
+		return;
+	}
+
+	const validation = validateApplicationId(appId);
+	if (validation !== "valid") {
+		setLoginError(validation);
+		return;
+	}
+
+	if (!userName || !appId) {
+		setLoginError("Please enter your name and application ID.");
+		return;
+	}
+
+	if (!userEmail.includes("@")) {
+		setLoginError("Please enter a valid email address.");
+		return;
+	}
+	// 🔒 CHECK APPLICATION ID FROM SERVER
+	try {
+	const response = await fetch(GOOGLE_SCRIPT_URL, {
+		method: "POST",
+		body: JSON.stringify({
+			type: "checkAppId",
+			appId: appId,
+			examId: activeExamId
+		}),
+		headers: { "Content-Type": "text/plain" }
+	});
+
+	const result = await response.json();
+
+	if (result.status !== "valid") {
+		setLoginError("Application ID not authorized for this exam.");
+		return;
+	}
+
+	} catch (error) {
+	console.error(error);
+	setLoginError("Unable to verify Application ID. Try again.");
+	return;
+	}
+
+	const startBtn = document.getElementById("startBtn");
+	startBtn.disabled = true;
+	startBtn.textContent = "Preparing Test...";
+	setLoginStatus(`Checking eligibility for ${activeExamId}...`);
+
+	showLoading(
+		"Validating details...",
+		"Please wait while your application ID and exam access are checked."
+	);
+
+	const validated = await validateStudentForApproval();
+
+	if (!validated) {
+		hideLoading();
+		return;
+	}
+
+	hideLoading();
+	document.getElementById("login").classList.add("hidden");
+	approvalGateEl.classList.remove("hidden");
+	approvalStatusEl.textContent = "Waiting for admin approval...";
+	approvedStartBtnEl.disabled = true;
+	startApprovalPolling();
+}
+
+async function validateStudentForApproval() {
+	try {
+		const response = await fetch(GOOGLE_SCRIPT_URL, {
+			method: "POST",
+			body: JSON.stringify({
+				type: "validateStudent",
+				examId: activeExamId,
+				appId: appId,
+				sessionId: examSessionId
+			}),
+			headers: { "Content-Type": "text/plain" }
+		});
+		const data = await response.json();
+
+		if (data.status !== "waiting_approval" && data.status !== "approved" && data.status !== "active") {
+			const map = {
+				not_found: "Exam ID not found.",
+				before: "This exam has not started yet.",
+				after: "This exam is closed.",
+				inactive: "This exam is inactive.",
+				invalid: "Application ID not authorized for this exam.",
+				already_attempted: "You have already attempted this exam.",
+				active_attempt: "This application ID is already active on another device. Ask your teacher to reset it, then restart here.",
+				invalid_session: "This exam session is invalid. Please restart the exam."
+			};
+			alert(map[data.status] || "This exam is not available.");
+			blockStart(map[data.status] || "This exam is not available.");
+			return false;
+		}
+
+		examMeta = data.exam;
+		updateUiFromMeta();
+		if (data.status === "approved" || data.status === "active") {
+			approvalStatusEl.textContent = "Approved. You can start the exam.";
+			approvedStartBtnEl.disabled = false;
+		}
+		return true;
+	} catch (error) {
+		console.error(error);
+		blockStart("We could not validate this exam. Please try again later.");
+		return false;
+	}
+}
+
+function startApprovalPolling() {
+	clearInterval(approvalPollInterval);
+	approvalPollInterval = setInterval(checkApprovalStatus, 3000);
+	checkApprovalStatus();
+}
+
+async function checkApprovalStatus() {
+	try {
+		const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=approvalStatus&examId=${encodeURIComponent(activeExamId)}&appId=${encodeURIComponent(appId)}&sessionId=${encodeURIComponent(examSessionId)}&t=${Date.now()}`);
+		const data = await response.json();
+
+		if (data.status === "approved") {
+			clearInterval(approvalPollInterval);
+			approvalStatusEl.textContent = "Approved. You can start the exam.";
+			approvedStartBtnEl.disabled = false;
+			return;
+		}
+
+		if (data.status === "waiting_approval") {
+			approvalStatusEl.textContent = "Waiting for admin approval...";
+			return;
+		}
+
+		clearInterval(approvalPollInterval);
+		approvalStatusEl.textContent = "This attempt is no longer valid. Please contact the admin.";
+		approvedStartBtnEl.disabled = true;
+	} catch (error) {
+		console.error(error);
+		approvalStatusEl.textContent = "Still waiting. Connection check will retry automatically.";
+	}
+}
+
+async function beginApprovedExam() {
+	enterFullscreen();
+	approvedStartBtnEl.disabled = true;
+	approvedStartBtnEl.textContent = "Loading Exam...";
+	showLoading(
+		"Exam is loading...",
+		"Please wait while approved questions are prepared."
+	);
+
+	await loadExamData();
+
+	if (!questionsReady) {
+		hideLoading();
+		approvedStartBtnEl.disabled = false;
+		approvedStartBtnEl.textContent = "Start Exam";
+		return;
+	}
+
+	hideLoading();
+	approvalGateEl.classList.add("hidden");
+
+	showLoading(
+		"Exam loaded successfully",
+		"Your countdown will begin now."
+	);
+
+	setTimeout(() => {
+		hideLoading();
+		startCountdown();
+	}, 1500);
+}
+
+
+async function loadExamData() {
+	try {
+		const attemptResponse = await fetch(`${GOOGLE_SCRIPT_URL}?action=attemptStatus&examId=${encodeURIComponent(activeExamId)}&appId=${encodeURIComponent(appId)}&t=${Date.now()}`);
+		const attemptStatus = await attemptResponse.text();
+
+		if (attemptStatus === "exists") {
+			alert("You have already attempted this exam.");
+			blockStart("This application ID has already been used for this exam.");
+			return;
+		}
+
+		const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=studentExam&examId=${encodeURIComponent(activeExamId)}&appId=${encodeURIComponent(appId)}&sessionId=${encodeURIComponent(examSessionId)}&t=${Date.now()}`);
+		const data = await response.json();
+
+		if (data.status !== "open") {
+			const map = {
+				not_found: "Exam ID not found.",
+				before: "This exam has not started yet.",
+				after: "This exam is closed.",
+				inactive: "This exam is inactive.",
+				invalid: "Application ID not authorized for this exam.",
+				already_attempted: "You have already attempted this exam.",
+				active_attempt: "This application ID is already active on another device. Ask your teacher to reset it, then restart here.",
+				active_attempt_reset: "This attempt was reset by the teacher. Please restart the exam.",
+				attempt_expired: "This attempt expired. Please contact the teacher.",
+				invalid_session: "This exam session is invalid. Please restart the exam."
+			};
+			alert(map[data.status] || "This exam is not available.");
+			blockStart(map[data.status] || "This exam is not available.");
+			return;
+		}
+
+		examMeta = data.exam;
+		if (!examMeta || !examMeta.durationMinutes) {
+			blockStart("Exam timing could not load.");
+			return;
+		}
+
+		time = Number(examMeta.durationMinutes) * 60;
+		questions = Array.isArray(data.questions) ? data.questions : [];
+		updateUiFromMeta();
+
+		if (!questions.length) {
+			alert("No questions are available for this exam.");
+			blockStart("No questions are available for this exam right now.");
+			return;
+		}
+
+		selectedQuestions = [...questions];
+		shuffleArray(selectedQuestions);
+		selectedQuestions = selectedQuestions.slice(0, examMeta.questionLimit);
+		questionsReady = true;
+		examStarted = true;
+		sessionStorage.setItem("examStarted", "true");
+		sessionStorage.setItem("activeExamId", activeExamId);
+		questionCountBadgeEl.textContent = `${selectedQuestions.length} questions loaded`;
+		studentBadgeEl.textContent = userName ? `Candidate: ${userName}` : "Student session";
+		setLoginStatus(`Questions are ready for ${activeExamId}.`);
+	} catch (error) {
+		console.error(error);
+		blockStart("We could not prepare this exam. Please try again later.");
+	}
+}
+
+function enterFullscreen() {
+	if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen().catch(() => {});
+	}
+}
+
+function startTimer() {
+	const endTime = Date.now() + (time * 1000);
+
+	timer = setInterval(() => {
+		const remaining = Math.floor((endTime - Date.now()) / 1000);
+		if (remaining <= 0) {
+			clearInterval(timer);
+			updateTimerDisplay(0);
+			submitTest();
+			return;
+		}
+		updateTimerDisplay(remaining);
+	}, 1000);
+}
+
+function updateTimerDisplay(seconds) {
+	const m = Math.floor(seconds / 60);
+	const s = seconds % 60;
+	document.getElementById("timer").textContent = `Time Left: ${m}m ${String(s).padStart(2, "0")}s`;
+}
+
+function updateProgress() {
+	const total = selectedQuestions.length || 1;
+	const current = currentIndex + 1;
+	const percent = Math.round((current / total) * 100);
+	progressFillEl.style.width = `${percent}%`;
+	progressTextEl.textContent = `Question ${current} of ${total}`;
+	progressPercentEl.textContent = `${percent}% complete`;
+}
+
+function saveAnswer(option) {
+	userAnswers[currentIndex] = option;
+	nextBtnEl.classList.remove("hidden");
+	nextBtnEl.disabled = false;
+	answerStatusEl.textContent = "Answer saved for this question. Continue when you are ready.";
+	document.querySelectorAll(".option-box").forEach((box) => {
+		box.classList.toggle("selected", box.dataset.value === option);
+	});
+}
+
+function renderOptions(options) {
+	const optionsWrap = document.createElement("div");
+	optionsWrap.className = "options";
+
+	options.forEach((optionText, optionIndex) => {
+		const label = document.createElement("label");
+		label.className = "option-box";
+		label.dataset.value = optionText;
+
+		const input = document.createElement("input");
+		input.type = "radio";
+		input.name = "opt";
+		input.value = optionText;
+		input.addEventListener("change", () => saveAnswer(optionText));
+
+		const optionLabel = document.createElement("span");
+		optionLabel.className = "option-label";
+		optionLabel.textContent = String.fromCharCode(65 + optionIndex) + ".";
+
+		const optionTextSpan = document.createElement("span");
+		optionTextSpan.className = "option-text";
+		optionTextSpan.textContent = optionText;
+
+		label.appendChild(input);
+		label.appendChild(optionLabel);
+		label.appendChild(optionTextSpan);
+		optionsWrap.appendChild(label);
+	});
+
+	return optionsWrap;
+}
+
+function showQuestion() {
+	const q = selectedQuestions[currentIndex];
+	const options = [...q.options];
+	shuffleArray(options);
+
+	updateProgress();
+	questionContainerEl.innerHTML = "";
+
+	const title = document.createElement("p");
+	title.className = "helper-text";
+	title.style.margin = "0 0 10px";
+	title.textContent = `Question ${currentIndex + 1}`;
+
+	const questionTitle = document.createElement("h3");
+	questionTitle.className = "question-title";
+	questionTitle.innerHTML = q.q
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;");
+
+	questionContainerEl.appendChild(title);
+	questionContainerEl.appendChild(questionTitle);
+	questionContainerEl.appendChild(renderOptions(options));
+
+	nextBtnEl.classList.add("hidden");
+	nextBtnEl.disabled = true;
+	nextBtnEl.textContent = currentIndex === selectedQuestions.length - 1 ? "Submit Test" : "Next Question";
+	answerStatusEl.textContent = "Select one option to continue.";
+}
+
+function nextQuestion() {
+	if (currentIndex < selectedQuestions.length - 1) {
+		currentIndex += 1;
+		showQuestion();
+	} else {
+		submitTest();
+	}
+}
+
+async function submitTest() {
+	if (submitted) {
+		return;
+	}
+
+	submitted = true;
+	examStarted = false;
+	sessionStorage.removeItem("examStarted");
+	clearInterval(timer);
+
+	// backup before sending
+	localStorage.setItem("lastSubmissionBackup", JSON.stringify({
+		name: userName,
+		appId: appId,
+		email: userEmail,
+		examId: activeExamId
+	}));
+
+	document.getElementById("quiz").classList.add("hidden");
+	document.getElementById("result").classList.remove("hidden");
+	document.getElementById("scoreMsg").textContent = "Saving";
+	document.getElementById("percentMsg").textContent = "Please wait";
+	document.getElementById("resultLineOne").textContent = "Your answers are being evaluated securely.";
+	document.getElementById("resultLineTwo").textContent = `This submission is for exam ${activeExamId}.`;
+	document.getElementById("resultLineThree").textContent = "Keep this page open until the result appears.";
+	resultStatusNoteEl.textContent = "Submitting answers to the server...";
+	resultStatusNoteEl.style.color = "#334155";
+
+	const answers = selectedQuestions.map((q, index) => ({
+		id: q.id,
+		chosen: userAnswers[index] || "Not Answered"
+	}));
+
+	const result = await sendToSheet(answers);
+	if (result && (result.status === "already_attempted" || result.status === "active_attempt")) {
+		document.getElementById("scoreMsg").textContent = "Recorded";
+		document.getElementById("percentMsg").textContent = result.status === "already_attempted" ? "Already submitted" : "Already active";
+		document.getElementById("resultLineOne").textContent = result.status === "already_attempted"
+			? "This application ID has already submitted this exam."
+			: "This application ID is active in another exam session.";
+		document.getElementById("resultLineTwo").textContent = `No second submission was saved for ${activeExamId}.`;
+		document.getElementById("resultLineThree").textContent = "Please contact the exam administrator if this is unexpected.";
+		resultStatusNoteEl.textContent = result.status === "already_attempted" ? "Attempt already recorded." : "Attempt blocked by active session lock.";
+		resultStatusNoteEl.style.color = "#b45309";
+		return;
+	}
+
+	if (!result || result.status !== "saved") {
+		document.getElementById("scoreMsg").textContent = "Pending";
+		document.getElementById("percentMsg").textContent = "Not scored yet";
+		document.getElementById("resultLineOne").textContent = "Your answers were stored on this device because the server could not be reached.";
+		document.getElementById("resultLineTwo").textContent = "They will retry automatically when the internet connection is available.";
+		document.getElementById("resultLineThree").textContent = "The secure score will be calculated only after the server receives the submission.";
+		resultStatusNoteEl.textContent = "Result pending sync.";
+		resultStatusNoteEl.style.color = "#b45309";
+		return;
+	}
+
+	const score = Number(result.score) || 0;
+	const total = Number(result.total) || selectedQuestions.length;
+	const percent = result.percent || "0.00";
+	const passed = result.passed === true || Number(percent) >= getSettings().passPercentage;
+
+	document.getElementById("scoreMsg").textContent = `${score}/${total}`;
+	document.getElementById("percentMsg").textContent = `${percent}% scored`;
+	document.getElementById("resultLineOne").textContent = `You answered ${score} out of ${total} questions correctly in ${activeExamId}.`;
+	document.getElementById("resultLineTwo").textContent = `This submission is saved only for exam ${activeExamId}.`;
+	document.getElementById("resultLineThree").textContent = "The response sheet will be sent by email after the exam's configured delay.";
+	resultStatusNoteEl.textContent = passed
+		? `Status: Passed. Required score was ${getSettings().passPercentage}%.`
+		: `Status: Below pass mark. Required score was ${getSettings().passPercentage}%.`;
+	resultStatusNoteEl.style.color = passed ? "#166534" : "#b91c1c";
+}
+
+async function sendToSheet(answers) {
+
+let payload = {
+	type: "saveResult",
+	id: Date.now(), // unique id
+	examId: activeExamId,
+	name: userName,
+	appId: appId,
+	email: userEmail,
+	sessionId: examSessionId,
+	answers: answers
+};
+
+try {
+
+	const response = await fetch(GOOGLE_SCRIPT_URL, {
+		method: "POST",
+		keepalive: true,
+		body: JSON.stringify(payload),
+		headers: { "Content-Type": "text/plain" }
+	});
+
+	const result = await response.json();
+	console.log("Saved successfully", result);
+	return result;
+
+} catch (error) {
+
+	console.error("Error sending result:", error);
+
+	// ✅ SAVE OFFLINE (IMPORTANT)
+	let pending = JSON.parse(localStorage.getItem("pendingResults") || "[]");
+
+	pending.push(payload);
+
+	localStorage.setItem("pendingResults", JSON.stringify(pending));
+	return null;
+}
+}
+
+// function handleViolation(message) {
+// 	if (!examStarted || submitted) {
+// 		return;
+// 	}
+
+// 	violationCount += 1;
+// 	warningEl.classList.remove("hidden");
+// 	warningEl.textContent = `${message} Warning ${violationCount} of 2.`;
+
+// 	if (violationCount >= 2) {
+// 		warningEl.textContent = `${message} The test is being submitted to protect the attempt.`;
+// 		submitTest();
+// 	}
+// }
+function handleViolation(message) {
+	if (!examStarted || submitted) {
+		return;
+	}
+
+	// Directly submit without warning
+	submitTest();
+}
+document.addEventListener("visibilitychange", () => {
+	if (document.hidden && examStarted) {
+		handleViolation("Tab switch detected.");
+	}
+});
+
+document.addEventListener("fullscreenchange", () => {
+	if (!document.fullscreenElement && examStarted) {
+		handleViolation("Fullscreen was exited.");
+	}
+});
+
+window.addEventListener("blur", () => {
+	if (examStarted) {
+		submitTest();
+	}
+});
+
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.addEventListener("copy", (e) => e.preventDefault());
+document.addEventListener("paste", (e) => e.preventDefault());
+
+document.addEventListener("keydown", (e) => {
+	if (e.key === "Escape" && examStarted) {
+		handleViolation("Escape key pressed.");
+	}
+	if (e.key === "F12") {
+		handleViolation("Developer tools shortcut detected.");
+	}
+	if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) {
+		handleViolation("Developer tools shortcut detected.");
+	}
+	if (e.ctrlKey && e.key.toLowerCase() === "u") {
+		handleViolation("View source shortcut detected.");
+	}
+	if (e.key === "F5") {
+		e.preventDefault();
+		handleViolation("Refresh shortcut detected.");
+	}
+});
+
+setInterval(() => {
+	const start = performance.now();
+	debugger;
+	const end = performance.now();
+	if (end - start > 100 && examStarted) {
+		handleViolation("Developer tools activity detected.");
+	}
+}, 1000);
+
+document.getElementById("examId").addEventListener("change", async (event) => {
+	setLoginError("");
+	const value = String(event.target.value || "").trim().toUpperCase();
+	event.target.value = value;
+	await fetchExamMeta(value);
+});
+
+document.getElementById("examId").addEventListener("blur", async (event) => {
+	const value = String(event.target.value || "").trim().toUpperCase();
+	event.target.value = value;
+	if (value) {
+		await fetchExamMeta(value);
+	}
+});
+
+const prefilledExamId = String(queryParams.get("examId") || "").trim().toUpperCase();
+if (prefilledExamId) {
+	document.getElementById("examId").value = prefilledExamId;
+	fetchExamMeta(prefilledExamId);
+} else {
+	updateUiFromMeta();
+}
+async function retryPendingResults() {
+
+let pending = JSON.parse(localStorage.getItem("pendingResults") || "[]");
+
+if (pending.length === 0) return;
+
+console.log("Retrying pending results:", pending.length);
+
+let successIds = [];
+
+for (let data of pending) {
+
+	try {
+
+		await fetch(GOOGLE_SCRIPT_URL, {
+			method: "POST",
+			body: JSON.stringify(data),
+			headers: { "Content-Type": "text/plain" }
+		});
+
+		console.log("Sent:", data.id);
+		successIds.push(data.id);
+
+	} catch (err) {
+		console.log("Still failed:", data.id);
+	}
+}
+
+// keep only failed ones
+let remaining = pending.filter(p => !successIds.includes(p.id));
+
+localStorage.setItem("pendingResults", JSON.stringify(remaining));
+
+if (remaining.length === 0) {
+	console.log("All pending results synced ✅");
+}
+}
+// when internet comes back
+window.addEventListener("online", () => {
+	console.log("Internet back - retrying...");
+	retryPendingResults();
+});
+
+// when page loads
+window.onload = () => {
+	retryPendingResults();
+};
+</script>
 
 </body>
 </html>
