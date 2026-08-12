@@ -1,5 +1,968 @@
-<html>
-  <body>
-    <h1>hello world!</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Your Name — Portfolio</title>
+
+  <style>
+    /* =========================
+       RESET
+    ========================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f0e8;
+      color: #111;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* =========================
+       GLOBAL
+    ========================== */
+    :root {
+      --black: #111;
+      --white: #fff;
+      --yellow: #ffe500;
+      --pink: #ff4fa3;
+      --blue: #4267ff;
+      --green: #54e346;
+      --orange: #ff6b35;
+      --border: 4px solid #111;
+      --shadow: 8px 8px 0 #111;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: auto;
+    }
+
+    .section {
+      padding: 100px 0;
+      border-bottom: var(--border);
+    }
+
+    .section-title {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 18px;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+      margin-bottom: 50px;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+    nav {
+      border-bottom: var(--border);
+      background: var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      min-height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 1000;
+      border: var(--border);
+      padding: 8px 14px;
+      background: var(--white);
+      box-shadow: 5px 5px 0 var(--black);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 10px 14px;
+      border: 3px solid transparent;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+    .hero {
+      min-height: calc(100vh - 75px);
+      display: flex;
+      align-items: center;
+      border-bottom: var(--border);
+      background:
+        linear-gradient(45deg, transparent 48%, #111 49%, #111 51%, transparent 52%);
+      background-size: 35px 35px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 60px;
+      align-items: center;
+      padding: 100px 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.82;
+      letter-spacing: -8px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+    }
+
+    .hero h1 span {
+      color: var(--pink);
+      text-shadow: 5px 5px 0 var(--black);
+    }
+
+    .hero-description {
+      background: var(--white);
+      border: var(--border);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      max-width: 650px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: var(--border);
+      background: var(--yellow);
+      padding: 15px 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      box-shadow: 6px 6px 0 var(--black);
+      cursor: pointer;
+      transition: 0.12s;
+    }
+
+    .btn:hover {
+      transform: translate(5px, 5px);
+      box-shadow: 1px 1px 0 var(--black);
+    }
+
+    .btn.black {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* =========================
+       PROFILE CARD
+    ========================== */
+    .profile-card {
+      border: var(--border);
+      background: var(--blue);
+      padding: 20px;
+      box-shadow: 12px 12px 0 var(--black);
+      transform: rotate(2deg);
+    }
+
+    .profile-photo {
+      height: 380px;
+      border: var(--border);
+      background: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      font-weight: 1000;
+      overflow: hidden;
+    }
+
+    .profile-info {
+      background: var(--white);
+      border: var(--border);
+      margin-top: 15px;
+      padding: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       ABOUT
+    ========================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .about-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .about-text p + p {
+      margin-top: 20px;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .fact {
+      border: var(--border);
+      background: var(--white);
+      padding: 25px;
+      box-shadow: 5px 5px 0 var(--black);
+    }
+
+    .fact:nth-child(2) {
+      background: var(--green);
+    }
+
+    .fact:nth-child(3) {
+      background: var(--pink);
+    }
+
+    .fact:nth-child(4) {
+      background: var(--yellow);
+    }
+
+    .fact strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 1000;
+    }
+
+    /* =========================
+       SKILLS
+    ========================== */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .skill {
+      border: var(--border);
+      background: var(--white);
+      padding: 15px 22px;
+      font-weight: 1000;
+      font-size: 1.1rem;
+      box-shadow: 5px 5px 0 var(--black);
+      transition: 0.15s;
+    }
+
+    .skill:hover {
+      background: var(--pink);
+      transform: rotate(-3deg) translateY(-5px);
+    }
+
+    /* =========================
+       PROJECTS
+    ========================== */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .project {
+      border: var(--border);
+      background: var(--white);
+      box-shadow: 9px 9px 0 var(--black);
+      transition: 0.15s;
+    }
+
+    .project:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 13px 13px 0 var(--black);
+    }
+
+    .project-image {
+      height: 280px;
+      border-bottom: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .project:nth-child(1) .project-image {
+      background: var(--pink);
+    }
+
+    .project:nth-child(2) .project-image {
+      background: var(--green);
+    }
+
+    .project:nth-child(3) .project-image {
+      background: var(--yellow);
+    }
+
+    .project:nth-child(4) .project-image {
+      background: var(--blue);
+      color: white;
+    }
+
+    .project-content {
+      padding: 25px;
+    }
+
+    .project h3 {
+      font-size: 2rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .project p {
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .project-link {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      border: 3px solid var(--black);
+      padding: 10px 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .project-link:hover {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    /* =========================
+       EXPERIENCE
+    ========================== */
+    .timeline {
+      border-left: var(--border);
+      margin-left: 20px;
+      padding-left: 35px;
+    }
+
+    .timeline-item {
+      position: relative;
+      border: var(--border);
+      background: var(--white);
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 7px 7px 0 var(--black);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--pink);
+      border: 4px solid var(--black);
+      left: -50px;
+      top: 30px;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.7rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .timeline-item .date {
+      display: inline-block;
+      background: var(--yellow);
+      border: 3px solid var(--black);
+      padding: 4px 10px;
+      font-weight: 900;
+      margin: 10px 0;
+    }
+
+    /* =========================
+       CONTACT
+    ========================== */
+    .contact {
+      background: var(--pink);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
+    .contact h2 {
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 0.85;
+      letter-spacing: -4px;
+      font-weight: 1000;
+      text-transform: uppercase;
+    }
+
+    .contact-form {
+      background: var(--white);
+      border: var(--border);
+      padding: 30px;
+      box-shadow: 10px 10px 0 var(--black);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 1000;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      border: var(--border);
+      background: #f4f0e8;
+      padding: 14px;
+      font: inherit;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      background: var(--yellow);
+    }
+
+    .form-group textarea {
+      height: 140px;
+      resize: vertical;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 35px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .socials a {
+      border: 3px solid var(--white);
+      padding: 8px 12px;
+      font-weight: 900;
+    }
+
+    .socials a:hover {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    /* =========================
+       MARQUEE
+    ========================== */
+    .marquee {
+      overflow: hidden;
+      border-bottom: var(--border);
+      background: var(--green);
+      white-space: nowrap;
+    }
+
+    .marquee-content {
+      display: inline-block;
+      padding: 15px 0;
+      font-size: 1.5rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      animation: marquee 18s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+    @media (max-width: 850px) {
+      .nav-inner {
+        flex-direction: column;
+        padding: 15px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.5rem, 17vw, 7rem);
+        letter-spacing: -5px;
+      }
+
+      .profile-card {
+        max-width: 500px;
+        margin: auto;
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .contact h2 {
+        font-size: 4rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .section {
+        padding: 70px 0;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-photo {
+        height: 300px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVIGATION
+  ========================== -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="logo">YN.</a>
+
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- =========================
+       HERO
+  ========================== -->
+  <header class="hero">
+    <div class="container hero-grid">
+
+      <div>
+        <h1>
+          Your<br>
+          <span>Name.</span>
+        </h1>
+
+        <div class="hero-description">
+          Creative developer & designer building bold digital
+          experiences, websites and products that refuse to look boring.
+        </div>
+
+        <div class="hero-buttons">
+          <a href="#projects" class="btn">View My Work →</a>
+          <a href="#contact" class="btn black">Let's Talk</a>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-photo">
+          PHOTO
+        </div>
+
+        <div class="profile-info">
+          <div>ROLE: CREATIVE DEVELOPER</div>
+          <div>LOCATION: INDIA 🇮🇳</div>
+          <div>STATUS: AVAILABLE</div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       MARQUEE
+  ========================== -->
+  <div class="marquee">
+    <div class="marquee-content">
+      DESIGN ★ CODE ★ CREATE ★ BREAK RULES ★ DESIGN ★ CODE ★ CREATE ★ BREAK RULES ★
+    </div>
+  </div>
+
+  <!-- =========================
+       ABOUT
+  ========================== -->
+  <section class="section" id="about">
+    <div class="container">
+
+      <h2 class="section-title">01 / About Me</h2>
+
+      <div class="about-grid">
+
+        <div class="about-text">
+          <p>
+            I'm a multidisciplinary developer who loves turning
+            complicated ideas into simple, memorable digital experiences.
+          </p>
+
+          <p>
+            I work across frontend development, UI design and creative
+            technology. My approach is simple: make it useful, make it
+            beautiful, and make it impossible to ignore.
+          </p>
+        </div>
+
+        <div class="facts">
+          <div class="fact">
+            <strong>05+</strong>
+            Years Experience
+          </div>
+
+          <div class="fact">
+            <strong>40+</strong>
+            Projects Shipped
+          </div>
+
+          <div class="fact">
+            <strong>20+</strong>
+            Happy Clients
+          </div>
+
+          <div class="fact">
+            <strong>∞</strong>
+            Ideas Brewing
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       SKILLS
+  ========================== -->
+  <section class="section" id="skills">
+    <div class="container">
+
+      <h2 class="section-title">02 / Skills</h2>
+
+      <div class="skills">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">React</div>
+        <div class="skill">Next.js</div>
+        <div class="skill">Node.js</div>
+        <div class="skill">TypeScript</div>
+        <div class="skill">UI / UX</div>
+        <div class="skill">Figma</div>
+        <div class="skill">Git</div>
+        <div class="skill">Motion Design</div>
+        <div class="skill">Responsive Design</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================
+       PROJECTS
+  ========================== -->
+  <section class="section" id="projects">
+    <div class="container">
+
+      <h2 class="section-title">03 / Selected Work</h2>
+
+      <div class="projects">
+
+        <article class="project">
+          <div class="project-image">
+            PROJECT 01
+          </div>
+
+          <div class="project-content">
+            <h3>Brutal Shop</h3>
+
+            <p>
+              An experimental e-commerce experience designed around
+              brutalist principles and unconventional layouts.
+            </p>
+
+            <a href="#" class="project-link">View Project ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-image">
+            PROJECT 02
+          </div>
+
+          <div class="project-content">
+            <h3>Studio 404</h3>
+
+            <p>
+              A creative studio website with expressive typography,
+              interactive sections and an unapologetic visual identity.
+            </p>
+
+            <a href="#" class="project-link">View Project ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-image">
+            PROJECT 03
+          </div>
+
+          <div class="project-content">
+            <h3>Fintech App</h3>
+
+            <p>
+              A clean financial dashboard focused on usability,
+              accessibility and fast data visualization.
+            </p>
+
+            <a href="#" class="project-link">View Project ↗</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-image">
+            PROJECT 04
+          </div>
+
+          <div class="project-content">
+            <h3>Creative Lab</h3>
+
+            <p>
+              A playground for experimental web animations, generative
+              visuals and interactive digital art.
+            </p>
+
+            <a href="#" class="project-link">View Project ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       EXPERIENCE
+  ========================== -->
+  <section class="section" id="experience">
+    <div class="container">
+
+      <h2 class="section-title">04 / Experience</h2>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <h3>Senior Frontend Developer</h3>
+          <span class="date">2024 — PRESENT</span>
+          <p>
+            Building scalable web applications, design systems and
+            interactive experiences for modern digital products.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <h3>Product Designer</h3>
+          <span class="date">2022 — 2024</span>
+          <p>
+            Designed interfaces and experiences from early concepts
+            through production and launch.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <h3>Frontend Developer</h3>
+          <span class="date">2021 — 2022</span>
+          <p>
+            Developed responsive websites and web applications while
+            collaborating closely with designers and product teams.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       CONTACT
+  ========================== -->
+  <section class="section contact" id="contact">
+    <div class="container contact-grid">
+
+      <div>
+        <h2>
+          Let's<br>
+          Make<br>
+          Stuff.
+        </h2>
+      </div>
+
+      <form class="contact-form" onsubmit="sendMessage(event)">
+
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="hello@example.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            placeholder="Tell me what you're building..."
+            required
+          ></textarea>
+        </div>
+
+        <button class="btn black" type="submit">
+          Send Message →
+        </button>
+
+      </form>
+
+    </div>
+  </section>
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+  <footer>
+    <div class="container footer-inner">
+
+      <div>
+        © 2026 YOUR NAME. BUILT WITH HTML + CSS.
+      </div>
+
+      <div class="socials">
+        <a href="#">GH</a>
+        <a href="#">LI</a>
+        <a href="#">X</a>
+        <a href="#">IG</a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+  <script>
+    function sendMessage(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+
+      alert(
+        "Thanks, " + name + "! Your message has been captured."
+      );
+
+      event.target.reset();
+    }
+  </script>
+
+</body>
 </html>
