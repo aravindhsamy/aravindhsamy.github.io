@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Timetable</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>College Timetable</h1>
+
+    <p class="instruction">
+        Click any timetable cell to view or edit the class.
+    </p>
+
+    <div class="table-container">
+
+        <table id="timetable">
+
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>LAB - A<br>74 Seats</th>
+                    <th>LAB - B<br>64 Seaters</th>
+                    <th>AB2 - Electronic Lab</th>
+                    <th>AB2 - 101<br>110 Seats</th>
+                    <th>AB2 - 203<br>85 Seats</th>
+                    <th>AB2 - 202<br>85 Seats</th>
+                    <th>AB1 - Moot Court Hall<br>85 Seats</th>
+                    <th>AB2 - 207<br>110 Seats</th>
+                    <th>AB2 - 205<br>60 Seats</th>
+                </tr>
+            </thead>
+
+            <tbody id="timetableBody"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- EDIT POPUP -->
+<!-- ========================= -->
+
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>Edit Timetable</h2>
+
+            <button class="close-btn" onclick="closeModal()">
+                &times;
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <label>Day</label>
+
+            <input
+                type="text"
+                id="editDay"
+                readonly
+            >
+
+
+            <label>Time</label>
+
+            <input
+                type="text"
+                id="editTime"
+                readonly
+            >
+
+
+            <label>Room</label>
+
+            <input
+                type="text"
+                id="editRoom"
+                readonly
+            >
+
+
+            <label>Subject</label>
+
+            <input
+                type="text"
+                id="editSubject"
+                placeholder="Enter subject"
+            >
+
+
+            <label>Section / Semester</label>
+
+            <input
+                type="text"
+                id="editSection"
+                placeholder="Example: Sec 4 / Sem 5"
+            >
+
+
+            <label>Faculty</label>
+
+            <input
+                type="text"
+                id="editFaculty"
+                placeholder="Enter faculty name"
+            >
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="delete-btn"
+                onclick="deleteClass()"
+            >
+                Delete
+            </button>
+
+            <div class="right-buttons">
+
+                <button
+                    class="cancel-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="save-btn"
+                    onclick="saveClass()"
+                >
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
