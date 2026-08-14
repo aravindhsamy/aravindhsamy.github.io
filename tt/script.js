@@ -1,366 +1,65 @@
 const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday"];
-const DEFAULT_ROOMS=[
-{id:1,name:"LAB - A",capacity:74,active:true},
-{id:2,name:"LAB - B",capacity:64,active:true},
-{id:3,name:"AB2 - Electronic Lab",capacity:0,active:true},
-{id:4,name:"AB2 - 101",capacity:110,active:true},
-{id:5,name:"AB2 - 203",capacity:85,active:true},
-{id:6,name:"AB2 - 202",capacity:85,active:true},
-{id:7,name:"AB1 - Moot Court Hall",capacity:85,active:true},
-{id:8,name:"AB2 - 207",capacity:110,active:true},
-{id:9,name:"AB2 - 205",capacity:60,active:true}
-];
-const DEFAULT_SLOTS=[
-{id:1,start:"09:15",end:"10:10",active:true},
-{id:2,start:"10:15",end:"11:10",active:true},
-{id:3,start:"11:15",end:"12:10",active:true},
-{id:4,start:"12:15",end:"12:55",active:true},
-{id:5,start:"13:00",end:"13:55",active:true},
-{id:6,start:"14:00",end:"14:55",active:true},
-{id:7,start:"15:00",end:"15:55",active:true},
-{id:8,start:"16:00",end:"16:55",active:true}
-];
+const DEFAULT_ROOMS=[{id:1,name:"LAB - A",capacity:74,active:true},{id:2,name:"LAB - B",capacity:64,active:true},{id:3,name:"AB2 - Electronic Lab",capacity:0,active:true},{id:4,name:"AB2 - 101",capacity:110,active:true},{id:5,name:"AB2 - 203",capacity:85,active:true},{id:6,name:"AB2 - 202",capacity:85,active:true},{id:7,name:"AB1 - Moot Court Hall",capacity:85,active:true},{id:8,name:"AB2 - 207",capacity:110,active:true},{id:9,name:"AB2 - 205",capacity:60,active:true}];
+const DEFAULT_SLOTS=[{id:1,start:"09:15",end:"10:10",active:true},{id:2,start:"10:15",end:"11:10",active:true},{id:3,start:"11:15",end:"12:10",active:true},{id:4,start:"12:15",end:"12:55",active:true},{id:5,start:"13:00",end:"13:55",active:true},{id:6,start:"14:00",end:"14:55",active:true},{id:7,start:"15:00",end:"15:55",active:true},{id:8,start:"16:00",end:"16:55",active:true}];
+const DEFAULT_ALLOCATIONS=[{id:1,course:"Linear Algebra",section:"Sec 1",faculty:"Dr. Beaulah",hours:4},{id:2,course:"Linear Algebra",section:"Sec 2",faculty:"Dr. Beaulah",hours:4},{id:3,course:"Linear Algebra",section:"Sec 3",faculty:"Dr. Tamil",hours:4},{id:4,course:"DAA",section:"Sec 1",faculty:"David",hours:4},{id:5,course:"FDA",section:"Sec 1",faculty:"Nithish",hours:4}];
 let rooms=loadData("rooms",DEFAULT_ROOMS);
 let slots=loadData("slots",DEFAULT_SLOTS);
+let allocations=loadData("allocations",DEFAULT_ALLOCATIONS);
 let timetable=loadData("timetable",{});
 let currentDay="Monday";
 let currentRow=null;
 let currentRoom=null;
-function loadData(key,fallback){
-const data=localStorage.getItem(key);
-return data?JSON.parse(data):JSON.parse(JSON.stringify(fallback));
-}
-function saveData(key,data){
-localStorage.setItem(key,JSON.stringify(data));
-}
-function uid(){
-return Date.now()+Math.floor(Math.random()*10000);
-}
-function formatTime(time){
-if(!time)return "";
-const [h,m]=time.split(":");
-let hour=parseInt(h);
-const ampm=hour>=12?"PM":"AM";
-hour=hour%12||12;
-return `${String(hour).padStart(2,"0")}:${m} ${ampm}`;
-}
-function slotText(slot){
-return `${formatTime(slot.start)} - ${formatTime(slot.end)}`;
-}
-function showPage(page){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById(page+"Page").classList.add("active");
-document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-document.querySelector(`.nav-btn[data-page="${page}"]`)?.classList.add("active");
-const titles={dashboard:["Dashboard","College timetable management system"],timetable:["Timetable","Manage Monday to Friday timetable"],settings:["Settings","Manage rooms and time slots"]};
-document.getElementById("pageTitle").textContent=titles[page][0];
-document.getElementById("pageSubtitle").textContent=titles[page][1];
-if(page==="dashboard")updateDashboard();
-if(page==="timetable")renderTimetable();
-if(page==="settings"){renderRooms();renderSlots();}
-}
+let selectedAllocationId=null;
+function loadData(key,fallback){const data=localStorage.getItem(key);return data?JSON.parse(data):JSON.parse(JSON.stringify(fallback))}
+function saveData(key,data){localStorage.setItem(key,JSON.stringify(data))}
+function uid(){return Date.now()+Math.floor(Math.random()*10000)}
+function formatTime(time){if(!time)return "";const [h,m]=time.split(":");let hour=parseInt(h);const ampm=hour>=12?"PM":"AM";hour=hour%12||12;return `${String(hour).padStart(2,"0")}:${m} ${ampm}`}
+function slotText(slot){return `${formatTime(slot.start)} - ${formatTime(slot.end)}`}
+function showPage(page){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(page+"Page").classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));document.querySelector(`.nav-btn[data-page="${page}"]`)?.classList.add("active");const titles={dashboard:["Dashboard","College timetable management system"],timetable:["Timetable","Manage Monday to Friday timetable"],settings:["Settings","Manage courses, rooms and time slots"]};document.getElementById("pageTitle").textContent=titles[page][0];document.getElementById("pageSubtitle").textContent=titles[page][1];if(page==="dashboard")updateDashboard();if(page==="timetable")renderTimetable();if(page==="settings"){renderAllocations();renderRooms();renderSlots()}}
 document.querySelectorAll(".nav-btn").forEach(btn=>btn.addEventListener("click",()=>showPage(btn.dataset.page)));
-function changeDay(day,button){
-currentDay=day;
-document.querySelectorAll(".day-tab").forEach(b=>b.classList.remove("active"));
-button.classList.add("active");
-document.getElementById("currentDayTitle").textContent=day;
-renderTimetable();
-}
-function getDayData(){
-if(!timetable[currentDay])timetable[currentDay]={};
-return timetable[currentDay];
-}
-function getRecord(slotId,roomId){
-const day=getDayData();
-if(!day[slotId])day[slotId]={};
-return day[slotId][roomId]||null;
-}
-function setRecord(slotId,roomId,data){
-if(!timetable[currentDay])timetable[currentDay]={};
-if(!timetable[currentDay][slotId])timetable[currentDay][slotId]={};
-if(data)timetable[currentDay][slotId][roomId]=data;
-else delete timetable[currentDay][slotId][roomId];
-saveData("timetable",timetable);
-}
-function renderTimetable(){
-const activeRooms=rooms.filter(r=>r.active);
-const activeSlots=slots.filter(s=>s.active);
-const head=document.getElementById("timetableHead");
-const body=document.getElementById("timetableBody");
-head.innerHTML="";
-body.innerHTML="";
-const tr=document.createElement("tr");
-const timeTh=document.createElement("th");
-timeTh.textContent="Time";
-tr.appendChild(timeTh);
-activeRooms.forEach(room=>{
-const th=document.createElement("th");
-th.innerHTML=`${escapeHTML(room.name)}${room.capacity?`<br><span>${room.capacity} Seats</span>`:""}`;
-tr.appendChild(th);
-});
-head.appendChild(tr);
-let count=0;
-activeSlots.forEach(slot=>{
-const row=document.createElement("tr");
-const time=document.createElement("td");
-time.className="time-cell";
-time.textContent=slotText(slot);
-row.appendChild(time);
-activeRooms.forEach(room=>{
-const td=document.createElement("td");
-const record=getRecord(slot.id,room.id);
-if(record?.lunch){
-td.className="lunch-cell";
-td.innerHTML="LUNCH<br>BREAK";
-}else if(record){
-count++;
-td.className="class-cell";
-td.innerHTML=`<div class="class-subject">${escapeHTML(record.subject)}</div><div class="class-section">${escapeHTML(record.section)}</div><div class="class-faculty">${escapeHTML(record.faculty)}</div>`;
-}else{
-td.className="empty-cell";
-td.textContent="+";
-}
-td.onclick=()=>openClassModal(slot,room);
-row.appendChild(td);
-});
-body.appendChild(row);
-});
-document.getElementById("currentDayCount").textContent=`${count} ${count===1?"class":"classes"}`;
-}
-function openClassModal(slot,room){
-currentRow=slot.id;
-currentRoom=room.id;
-const record=getRecord(slot.id,room.id);
-document.getElementById("classModalTitle").textContent=record?"Edit Class":"Add Class";
-document.getElementById("classModalSubtitle").textContent=`${currentDay} • ${slotText(slot)}`;
-document.getElementById("classDay").value=currentDay;
-document.getElementById("classTime").value=slotText(slot);
-document.getElementById("classRoom").value=room.name;
-document.getElementById("classSubject").value=record?.subject||"";
-document.getElementById("classSection").value=record?.section||"";
-document.getElementById("classFaculty").value=record?.faculty||"";
-document.getElementById("classLunch").checked=record?.lunch||false;
-document.getElementById("classModal").classList.add("show");
-}
-function saveClass(){
-const lunch=document.getElementById("classLunch").checked;
-const subject=document.getElementById("classSubject").value.trim();
-const section=document.getElementById("classSection").value.trim();
-const faculty=document.getElementById("classFaculty").value.trim();
-if(lunch){
-setRecord(currentRow,currentRoom,{lunch:true});
-closeModal("classModal");
-renderTimetable();
-updateDashboard();
-return;
-}
-if(!subject&&!section&&!faculty){
-setRecord(currentRow,currentRoom,null);
-closeModal("classModal");
-renderTimetable();
-updateDashboard();
-return;
-}
-if(!subject){
-alert("Please enter a subject.");
-return;
-}
-setRecord(currentRow,currentRoom,{subject,section,faculty,lunch:false});
-closeModal("classModal");
-renderTimetable();
-updateDashboard();
-}
-function deleteClass(){
-const record=getRecord(currentRow,currentRoom);
-if(!record)return;
-if(confirm("Delete this timetable record?")){
-setRecord(currentRow,currentRoom,null);
-closeModal("classModal");
-renderTimetable();
-updateDashboard();
-}
-}
-function renderRooms(){
-const body=document.getElementById("roomsBody");
-body.innerHTML="";
-rooms.forEach((room,index)=>{
-const tr=document.createElement("tr");
-tr.innerHTML=`<td>${index+1}</td><td><strong>${escapeHTML(room.name)}</strong></td><td>${room.capacity||"-"}</td><td><span class="status ${room.active?"active":"inactive"}">${room.active?"Active":"Inactive"}</span></td><td><button class="action-btn" onclick="editRoom(${room.id})">✏ Edit</button><button class="action-btn" onclick="toggleRoom(${room.id})">${room.active?"Deactivate":"Activate"}</button><button class="action-btn delete" onclick="deleteRoom(${room.id})">Delete</button></td>`;
-body.appendChild(tr);
-});
-}
-function openRoomModal(id=null){
-document.getElementById("roomId").value=id||"";
-document.getElementById("roomModalTitle").textContent=id?"Edit Room":"Add Room";
-if(id){
-const room=rooms.find(r=>r.id===id);
-document.getElementById("roomName").value=room.name;
-document.getElementById("roomCapacity").value=room.capacity||"";
-document.getElementById("roomActive").checked=room.active;
-}else{
-document.getElementById("roomName").value="";
-document.getElementById("roomCapacity").value="";
-document.getElementById("roomActive").checked=true;
-}
-document.getElementById("roomModal").classList.add("show");
-}
-function editRoom(id){openRoomModal(id);}
-function saveRoom(){
-const id=Number(document.getElementById("roomId").value);
-const name=document.getElementById("roomName").value.trim();
-const capacity=Number(document.getElementById("roomCapacity").value)||0;
-const active=document.getElementById("roomActive").checked;
-if(!name){
-alert("Please enter room name.");
-return;
-}
-if(id){
-const room=rooms.find(r=>r.id===id);
-room.name=name;
-room.capacity=capacity;
-room.active=active;
-}else{
-rooms.push({id:uid(),name,capacity,active});
-}
-saveData("rooms",rooms);
-closeModal("roomModal");
-renderRooms();
-renderTimetable();
-updateDashboard();
-}
-function toggleRoom(id){
-const room=rooms.find(r=>r.id===id);
-if(room){
-room.active=!room.active;
-saveData("rooms",rooms);
-renderRooms();
-renderTimetable();
-updateDashboard();
-}
-}
-function deleteRoom(id){
-const room=rooms.find(r=>r.id===id);
-if(!room)return;
-if(!confirm(`Delete "${room.name}"? Existing timetable records will remain stored but the room will disappear from the timetable.`))return;
-room.active=false;
-saveData("rooms",rooms);
-renderRooms();
-renderTimetable();
-updateDashboard();
-}
-function renderSlots(){
-const body=document.getElementById("slotsBody");
-body.innerHTML="";
-const sorted=[...slots].sort((a,b)=>a.start.localeCompare(b.start));
-sorted.forEach((slot,index)=>{
-const tr=document.createElement("tr");
-tr.innerHTML=`<td>${index+1}</td><td>${formatTime(slot.start)}</td><td>${formatTime(slot.end)}</td><td><strong>${slotText(slot)}</strong></td><td><span class="status ${slot.active?"active":"inactive"}">${slot.active?"Active":"Inactive"}</span></td><td><button class="action-btn" onclick="editSlot(${slot.id})">✏ Edit</button><button class="action-btn" onclick="toggleSlot(${slot.id})">${slot.active?"Deactivate":"Activate"}</button><button class="action-btn delete" onclick="deleteSlot(${slot.id})">Delete</button></td>`;
-body.appendChild(tr);
-});
-}
-function openSlotModal(id=null){
-document.getElementById("slotId").value=id||"";
-document.getElementById("slotModalTitle").textContent=id?"Edit Time Slot":"Add Time Slot";
-if(id){
-const slot=slots.find(s=>s.id===id);
-document.getElementById("slotStart").value=slot.start;
-document.getElementById("slotEnd").value=slot.end;
-document.getElementById("slotActive").checked=slot.active;
-}else{
-document.getElementById("slotStart").value="";
-document.getElementById("slotEnd").value="";
-document.getElementById("slotActive").checked=true;
-}
-document.getElementById("slotModal").classList.add("show");
-}
-function editSlot(id){openSlotModal(id);}
-function saveSlot(){
-const id=Number(document.getElementById("slotId").value);
-const start=document.getElementById("slotStart").value;
-const end=document.getElementById("slotEnd").value;
-const active=document.getElementById("slotActive").checked;
-if(!start||!end){
-alert("Please select both start and end time.");
-return;
-}
-if(start>=end){
-alert("End time must be after start time.");
-return;
-}
-const duplicate=slots.some(s=>s.id!==id&&s.start===start&&s.end===end);
-if(duplicate){
-alert("This time slot already exists.");
-return;
-}
-if(id){
-const slot=slots.find(s=>s.id===id);
-slot.start=start;
-slot.end=end;
-slot.active=active;
-}else{
-slots.push({id:uid(),start,end,active});
-}
-slots.sort((a,b)=>a.start.localeCompare(b.start));
-saveData("slots",slots);
-closeModal("slotModal");
-renderSlots();
-renderTimetable();
-updateDashboard();
-}
-function toggleSlot(id){
-const slot=slots.find(s=>s.id===id);
-if(slot){
-slot.active=!slot.active;
-saveData("slots",slots);
-renderSlots();
-renderTimetable();
-updateDashboard();
-}
-}
-function deleteSlot(id){
-const slot=slots.find(s=>s.id===id);
-if(!slot)return;
-if(!confirm(`Delete time slot "${slotText(slot)}"? Existing timetable records will remain stored but the slot will disappear from the timetable.`))return;
-slot.active=false;
-saveData("slots",slots);
-renderSlots();
-renderTimetable();
-updateDashboard();
-}
-function changeSettingsTab(tab,button){
-document.querySelectorAll(".settings-tab").forEach(b=>b.classList.remove("active"));
-button.classList.add("active");
-document.querySelectorAll(".settings-section").forEach(s=>s.classList.remove("active"));
-document.getElementById(tab+"Settings").classList.add("active");
-}
-function updateDashboard(){
-let total=0;
-Object.values(timetable).forEach(day=>{
-Object.values(day||{}).forEach(slot=>{
-Object.values(slot||{}).forEach(record=>{
-if(record&&!record.lunch)total++;
-});
-});
-});
-document.getElementById("totalClasses").textContent=total;
-document.getElementById("totalRooms").textContent=rooms.filter(r=>r.active).length;
-document.getElementById("totalSlots").textContent=slots.filter(s=>s.active).length;
-}
-function closeModal(id){
-document.getElementById(id).classList.remove("show");
-}
-function escapeHTML(value){
-return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-document.querySelectorAll(".modal-overlay").forEach(modal=>{
-modal.addEventListener("click",e=>{
-if(e.target===modal)modal.classList.remove("show");
-});
-});
-document.addEventListener("keydown",e=>{
-if(e.key==="Escape")document.querySelectorAll(".modal-overlay.show").forEach(m=>m.classList.remove("show"));
-});
+function changeDay(day,button){currentDay=day;document.querySelectorAll(".day-tab").forEach(b=>b.classList.remove("active"));button.classList.add("active");document.getElementById("currentDayTitle").textContent=day;renderTimetable()}
+function getDayData(){if(!timetable[currentDay])timetable[currentDay]={};return timetable[currentDay]}
+function getRecord(slotId,roomId){const day=getDayData();if(!day[slotId])day[slotId]={};return day[slotId][roomId]||null}
+function setRecord(slotId,roomId,data){if(!timetable[currentDay])timetable[currentDay]={};if(!timetable[currentDay][slotId])timetable[currentDay][slotId]={};if(data)timetable[currentDay][slotId][roomId]=data;else delete timetable[currentDay][slotId][roomId];saveData("timetable",timetable)}
+function getAllocation(id){return allocations.find(a=>Number(a.id)===Number(id))}
+function getAllocationUsage(id,ignoreSlot=null,ignoreRoom=null){let total=0;Object.values(timetable).forEach(day=>{Object.entries(day||{}).forEach(([slotId,roomsData])=>{Object.entries(roomsData||{}).forEach(([roomId,record])=>{if(ignoreSlot!==null&&String(slotId)===String(ignoreSlot)&&ignoreRoom!==null&&String(roomId)===String(ignoreRoom))return;if(record&&!record.lunch&&Number(record.allocationId)===Number(id))total++})})});return total}
+function getConflictInfo(day,slotId,roomId,allocationId){const allocation=getAllocation(allocationId);if(!allocation)return{faculty:false,section:false,facultyRooms:[],sectionRooms:[]};const slotData=(timetable[day]&&timetable[day][slotId])||{};const facultyRooms=[];const sectionRooms=[];Object.entries(slotData).forEach(([rid,record])=>{if(String(rid)===String(roomId)||!record||record.lunch)return;const other=getAllocation(record.allocationId);if(!other)return;if(other.faculty.trim().toLowerCase()===allocation.faculty.trim().toLowerCase())facultyRooms.push(Number(rid));if(other.section.trim().toLowerCase()===allocation.section.trim().toLowerCase())sectionRooms.push(Number(rid))});return{faculty:facultyRooms.length>0,section:sectionRooms.length>0,facultyRooms,sectionRooms}}
+function getConflictCells(){const result=new Set();Object.entries(timetable).forEach(([day,dayData])=>{Object.entries(dayData||{}).forEach(([slotId,roomsData])=>{const records=Object.entries(roomsData||{}).filter(([,r])=>r&&!r.lunch&&r.allocationId);records.forEach(([roomId,record])=>{const allocation=getAllocation(record.allocationId);if(!allocation)return;const conflicts=records.filter(([otherRoomId,otherRecord])=>{if(String(roomId)===String(otherRoomId)||!otherRecord||otherRecord.lunch)return false;const other=getAllocation(otherRecord.allocationId);if(!other)return false;return other.faculty.trim().toLowerCase()===allocation.faculty.trim().toLowerCase()||other.section.trim().toLowerCase()===allocation.section.trim().toLowerCase()});if(conflicts.length)result.add(`${day}|${slotId}|${roomId}`)})})});return result}
+function renderTimetable(){const activeRooms=rooms.filter(r=>r.active);const activeSlots=slots.filter(s=>s.active);const head=document.getElementById("timetableHead");const body=document.getElementById("timetableBody");head.innerHTML="";body.innerHTML="";const tr=document.createElement("tr");const timeTh=document.createElement("th");timeTh.textContent="Time";tr.appendChild(timeTh);activeRooms.forEach(room=>{const th=document.createElement("th");th.innerHTML=`${escapeHTML(room.name)}${room.capacity?`<br><span>${room.capacity} Seats</span>`:""}`;tr.appendChild(th)});head.appendChild(tr);let count=0;const conflicts=getConflictCells();activeSlots.forEach(slot=>{const row=document.createElement("tr");const time=document.createElement("td");time.className="time-cell";time.textContent=slotText(slot);row.appendChild(time);activeRooms.forEach(room=>{const td=document.createElement("td");const record=getRecord(slot.id,room.id);const conflict=conflicts.has(`${currentDay}|${slot.id}|${room.id}`);if(record?.lunch){td.className="lunch-cell";td.innerHTML="LUNCH<br>BREAK"}else if(record){count++;td.className=conflict?"class-cell conflict-cell":"class-cell";const allocation=getAllocation(record.allocationId);if(allocation){td.innerHTML=`<div class="class-subject">${escapeHTML(allocation.course)}</div><div class="class-section">${escapeHTML(allocation.section)}</div><div class="class-faculty">${escapeHTML(allocation.faculty)}</div>${conflict?'<div class="conflict-badge">CONFLICT</div>':""}`}else{td.innerHTML=`<div class="class-subject">${escapeHTML(record.subject||"")}</div><div class="class-section">${escapeHTML(record.section||"")}</div><div class="class-faculty">${escapeHTML(record.faculty||"")}</div>${conflict?'<div class="conflict-badge">CONFLICT</div>':""}`}}else{td.className="empty-cell";td.textContent="+"}td.onclick=()=>openClassModal(slot,room);row.appendChild(td)});body.appendChild(row)});document.getElementById("currentDayCount").textContent=`${count} ${count===1?"class":"classes"}`}
+function openClassModal(slot,room){currentRow=slot.id;currentRoom=room.id;selectedAllocationId=null;const record=getRecord(slot.id,room.id);document.getElementById("classModalTitle").textContent=record?"Edit Class":"Add Class";document.getElementById("classModalSubtitle").textContent=`${currentDay} • ${slotText(slot)}`;document.getElementById("classDay").value=currentDay;document.getElementById("classTime").value=slotText(slot);document.getElementById("classRoom").value=room.name;document.getElementById("allocationSearch").value="";document.getElementById("allocationDropdown").classList.remove("show");document.getElementById("classLunch").checked=record?.lunch||false;const selected=getAllocation(record?.allocationId);if(selected){selectedAllocationId=selected.id;showSelectedAllocation(selected)}else{clearSelectedAllocation()}updateAllocationHours();updateModalConflict();toggleLunchMode();document.getElementById("classModal").classList.add("show")}
+function filterAllocations(){const input=document.getElementById("allocationSearch");const query=input.value.trim().toLowerCase();const dropdown=document.getElementById("allocationDropdown");if(document.getElementById("classLunch").checked){dropdown.classList.remove("show");return}const filtered=allocations.filter(a=>`${a.course} ${a.section} ${a.faculty}`.toLowerCase().includes(query));dropdown.innerHTML="";filtered.forEach(a=>{const used=getAllocationUsage(a.id,currentRow,currentRoom);const remaining=a.hours-used;const option=document.createElement("div");option.className="allocation-option";option.innerHTML=`<strong>${escapeHTML(a.course)} — ${escapeHTML(a.section)}</strong><span>${escapeHTML(a.faculty)} • ${a.hours} hrs/week • <span class="remaining">${remaining} remaining</span></span>`;option.onclick=()=>selectAllocation(a.id);dropdown.appendChild(option)});dropdown.classList.toggle("show",filtered.length>0)}
+function selectAllocation(id){const allocation=getAllocation(id);if(!allocation)return;selectedAllocationId=allocation.id;document.getElementById("allocationSearch").value="";document.getElementById("allocationDropdown").classList.remove("show");showSelectedAllocation(allocation);updateAllocationHours();updateModalConflict()}
+function showSelectedAllocation(allocation){const box=document.getElementById("selectedAllocation");box.classList.remove("hidden");box.innerHTML=`<strong>${escapeHTML(allocation.course)} — ${escapeHTML(allocation.section)}</strong>${escapeHTML(allocation.faculty)}`}
+function clearSelectedAllocation(){const box=document.getElementById("selectedAllocation");box.classList.add("hidden");box.innerHTML="";document.getElementById("allocationRequiredHours").textContent="-";document.getElementById("allocationUsedHours").textContent="-";document.getElementById("allocationRemainingHours").textContent="-"}
+function updateAllocationHours(){if(!selectedAllocationId){clearSelectedAllocation();return}const allocation=getAllocation(selectedAllocationId);if(!allocation)return;const used=getAllocationUsage(allocation.id,currentRow,currentRoom);const record=getRecord(currentRow,currentRoom);const alreadySame=record&&!record.lunch&&Number(record.allocationId)===Number(allocation.id);const actualUsed=alreadySame?used+1:used;const remaining=allocation.hours-actualUsed;document.getElementById("allocationRequiredHours").textContent=allocation.hours;document.getElementById("allocationUsedHours").textContent=actualUsed;document.getElementById("allocationRemainingHours").textContent=remaining;document.getElementById("allocationRemainingHours").className=remaining<0?"hours-over":remaining===0?"hours-full":"hours-ok"}
+function updateModalConflict(){const message=document.getElementById("classConflictMessage");if(!selectedAllocationId||document.getElementById("classLunch").checked){message.classList.add("hidden");message.innerHTML="";return}const info=getConflictInfo(currentDay,currentRow,currentRoom,selectedAllocationId);const allocation=getAllocation(selectedAllocationId);let messages=[];if(info.faculty)messages.push(`Faculty conflict: ${allocation.faculty} is already assigned in another room during this time.`);if(info.section)messages.push(`Section conflict: ${allocation.section} is already assigned in another room during this time.`);if(messages.length){message.classList.remove("hidden");message.innerHTML="🔴 "+messages.join("<br>🔴 ")}else{message.classList.add("hidden");message.innerHTML=""}}
+function toggleLunchMode(){const lunch=document.getElementById("classLunch").checked;document.getElementById("allocationSearch").disabled=lunch;if(lunch){document.getElementById("allocationSearch").value="";document.getElementById("allocationDropdown").classList.remove("show");selectedAllocationId=null;clearSelectedAllocation()}updateModalConflict()}
+function saveClass(){const lunch=document.getElementById("classLunch").checked;if(lunch){setRecord(currentRow,currentRoom,{lunch:true});closeModal("classModal");renderTimetable();updateDashboard();renderAllocations();return}if(!selectedAllocationId){alert("Please search and select a course allocation.");return}const allocation=getAllocation(selectedAllocationId);if(!allocation)return;const used=getAllocationUsage(allocation.id,currentRow,currentRoom);const record=getRecord(currentRow,currentRoom);const alreadySame=record&&!record.lunch&&Number(record.allocationId)===Number(allocation.id);const newUsed=alreadySame?used+1:used+1;if(newUsed>allocation.hours){alert(`Contact hours exceeded for ${allocation.course} - ${allocation.section}. Required: ${allocation.hours} hours/week. Already allocated: ${used} hours.`);return}setRecord(currentRow,currentRoom,{allocationId:allocation.id,lunch:false});closeModal("classModal");renderTimetable();updateDashboard();renderAllocations()}
+function deleteClass(){const record=getRecord(currentRow,currentRoom);if(!record)return;if(confirm("Delete this timetable record?")){setRecord(currentRow,currentRoom,null);closeModal("classModal");renderTimetable();updateDashboard();renderAllocations()}}
+function renderAllocations(){const body=document.getElementById("allocationsBody");if(!body)return;body.innerHTML="";allocations.forEach((allocation,index)=>{const used=getAllocationUsage(allocation.id);const remaining=allocation.hours-used;const statusClass=remaining<0?"hours-over":remaining===0?"hours-full":"hours-ok";const tr=document.createElement("tr");tr.innerHTML=`<td>${index+1}</td><td><strong>${escapeHTML(allocation.course)}</strong></td><td>${escapeHTML(allocation.section)}</td><td>${escapeHTML(allocation.faculty)}</td><td>${allocation.hours}</td><td>${used}</td><td class="${statusClass}">${remaining}</td><td><button class="action-btn" onclick="editAllocation(${allocation.id})">✏ Edit</button><button class="action-btn delete" onclick="deleteAllocation(${allocation.id})">Delete</button></td>`;body.appendChild(tr)})}
+function openAllocationModal(id=null){document.getElementById("allocationId").value=id||"";document.getElementById("allocationModalTitle").textContent=id?"Edit Course Allocation":"Add Course Allocation";if(id){const a=getAllocation(id);document.getElementById("allocationCourse").value=a.course;document.getElementById("allocationSection").value=a.section;document.getElementById("allocationFaculty").value=a.faculty;document.getElementById("allocationHours").value=a.hours}else{document.getElementById("allocationCourse").value="";document.getElementById("allocationSection").value="";document.getElementById("allocationFaculty").value="";document.getElementById("allocationHours").value=""}document.getElementById("allocationModal").classList.add("show")}
+function editAllocation(id){openAllocationModal(id)}
+function saveAllocation(){const id=Number(document.getElementById("allocationId").value);const course=document.getElementById("allocationCourse").value.trim();const section=document.getElementById("allocationSection").value.trim();const faculty=document.getElementById("allocationFaculty").value.trim();const hours=Number(document.getElementById("allocationHours").value);if(!course||!section||!faculty||!hours||hours<1){alert("Please enter course, section, faculty and contact hours.");return}const duplicate=allocations.some(a=>a.id!==id&&a.course.toLowerCase()===course.toLowerCase()&&a.section.toLowerCase()===section.toLowerCase());if(duplicate){alert("This course and section allocation already exists.");return}if(id){const a=getAllocation(id);a.course=course;a.section=section;a.faculty=faculty;a.hours=hours}else{allocations.push({id:uid(),course,section,faculty,hours})}saveData("allocations",allocations);closeModal("allocationModal");renderAllocations();renderTimetable()}
+function deleteAllocation(id){const allocation=getAllocation(id);if(!allocation)return;if(!confirm(`Delete allocation "${allocation.course} - ${allocation.section}"? Existing timetable records will remain stored.`))return;allocations=allocations.filter(a=>a.id!==id);saveData("allocations",allocations);renderAllocations();renderTimetable()}
+function renderRooms(){const body=document.getElementById("roomsBody");body.innerHTML="";rooms.forEach((room,index)=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${index+1}</td><td><strong>${escapeHTML(room.name)}</strong></td><td>${room.capacity||"-"}</td><td><span class="status ${room.active?"active":"inactive"}">${room.active?"Active":"Inactive"}</span></td><td><button class="action-btn" onclick="editRoom(${room.id})">✏ Edit</button><button class="action-btn" onclick="toggleRoom(${room.id})">${room.active?"Deactivate":"Activate"}</button><button class="action-btn delete" onclick="deleteRoom(${room.id})">Delete</button></td>`;body.appendChild(tr)})}
+function openRoomModal(id=null){document.getElementById("roomId").value=id||"";document.getElementById("roomModalTitle").textContent=id?"Edit Room":"Add Room";if(id){const room=rooms.find(r=>r.id===id);document.getElementById("roomName").value=room.name;document.getElementById("roomCapacity").value=room.capacity||"";document.getElementById("roomActive").checked=room.active}else{document.getElementById("roomName").value="";document.getElementById("roomCapacity").value="";document.getElementById("roomActive").checked=true}document.getElementById("roomModal").classList.add("show")}
+function editRoom(id){openRoomModal(id)}
+function saveRoom(){const id=Number(document.getElementById("roomId").value);const name=document.getElementById("roomName").value.trim();const capacity=Number(document.getElementById("roomCapacity").value)||0;const active=document.getElementById("roomActive").checked;if(!name){alert("Please enter room name.");return}if(id){const room=rooms.find(r=>r.id===id);room.name=name;room.capacity=capacity;room.active=active}else{rooms.push({id:uid(),name,capacity,active})}saveData("rooms",rooms);closeModal("roomModal");renderRooms();renderTimetable();updateDashboard()}
+function toggleRoom(id){const room=rooms.find(r=>r.id===id);if(room){room.active=!room.active;saveData("rooms",rooms);renderRooms();renderTimetable();updateDashboard()}}
+function deleteRoom(id){const room=rooms.find(r=>r.id===id);if(!room)return;if(!confirm(`Delete "${room.name}"? Existing timetable records will remain stored but the room will disappear from the timetable.`))return;room.active=false;saveData("rooms",rooms);renderRooms();renderTimetable();updateDashboard()}
+function renderSlots(){const body=document.getElementById("slotsBody");body.innerHTML="";const sorted=[...slots].sort((a,b)=>a.start.localeCompare(b.start));sorted.forEach((slot,index)=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${index+1}</td><td>${formatTime(slot.start)}</td><td>${formatTime(slot.end)}</td><td><strong>${slotText(slot)}</strong></td><td><span class="status ${slot.active?"active":"inactive"}">${slot.active?"Active":"Inactive"}</span></td><td><button class="action-btn" onclick="editSlot(${slot.id})">✏ Edit</button><button class="action-btn" onclick="toggleSlot(${slot.id})">${slot.active?"Deactivate":"Activate"}</button><button class="action-btn delete" onclick="deleteSlot(${slot.id})">Delete</button></td>`;body.appendChild(tr)})}
+function openSlotModal(id=null){document.getElementById("slotId").value=id||"";document.getElementById("slotModalTitle").textContent=id?"Edit Time Slot":"Add Time Slot";if(id){const slot=slots.find(s=>s.id===id);document.getElementById("slotStart").value=slot.start;document.getElementById("slotEnd").value=slot.end;document.getElementById("slotActive").checked=slot.active}else{document.getElementById("slotStart").value="";document.getElementById("slotEnd").value="";document.getElementById("slotActive").checked=true}document.getElementById("slotModal").classList.add("show")}
+function editSlot(id){openSlotModal(id)}
+function saveSlot(){const id=Number(document.getElementById("slotId").value);const start=document.getElementById("slotStart").value;const end=document.getElementById("slotEnd").value;const active=document.getElementById("slotActive").checked;if(!start||!end){alert("Please select both start and end time.");return}if(start>=end){alert("End time must be after start time.");return}const duplicate=slots.some(s=>s.id!==id&&s.start===start&&s.end===end);if(duplicate){alert("This time slot already exists.");return}if(id){const slot=slots.find(s=>s.id===id);slot.start=start;slot.end=end;slot.active=active}else{slots.push({id:uid(),start,end,active})}slots.sort((a,b)=>a.start.localeCompare(b.start));saveData("slots",slots);closeModal("slotModal");renderSlots();renderTimetable();updateDashboard()}
+function toggleSlot(id){const slot=slots.find(s=>s.id===id);if(slot){slot.active=!slot.active;saveData("slots",slots);renderSlots();renderTimetable();updateDashboard()}}
+function deleteSlot(id){const slot=slots.find(s=>s.id===id);if(!slot)return;if(!confirm(`Delete time slot "${slotText(slot)}"? Existing timetable records will remain stored but the slot will disappear from the timetable.`))return;slot.active=false;saveData("slots",slots);renderSlots();renderTimetable();updateDashboard()}
+function changeSettingsTab(tab,button){document.querySelectorAll(".settings-tab").forEach(b=>b.classList.remove("active"));button.classList.add("active");document.querySelectorAll(".settings-section").forEach(s=>s.classList.remove("active"));document.getElementById(tab+"Settings").classList.add("active")}
+function updateDashboard(){let total=0;Object.values(timetable).forEach(day=>{Object.values(day||{}).forEach(slot=>{Object.values(slot||{}).forEach(record=>{if(record&&!record.lunch)total++})})});document.getElementById("totalClasses").textContent=total;document.getElementById("totalRooms").textContent=rooms.filter(r=>r.active).length;document.getElementById("totalSlots").textContent=slots.filter(s=>s.active).length}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+function escapeHTML(value){return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+document.querySelectorAll(".modal-overlay").forEach(modal=>{modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show")})});
+document.addEventListener("click",e=>{const dropdown=document.getElementById("allocationDropdown");const search=document.getElementById("allocationSearch");if(dropdown&&!dropdown.contains(e.target)&&e.target!==search)dropdown.classList.remove("show")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".modal-overlay.show").forEach(m=>m.classList.remove("show"));document.getElementById("allocationDropdown")?.classList.remove("show")}});
 document.getElementById("todayDate").textContent=new Date().toLocaleDateString("en-IN",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});
 renderTimetable();
 updateDashboard();
